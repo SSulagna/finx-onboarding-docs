@@ -11,25 +11,23 @@ solution architects.
 
 ## Journey Summary
 
-Retail savings onboarding from lead to funded account, with configurable
+Retail savings onboarding from product selection to funded account, with configurable
 steps:
 
-> Qualify prospect → Capture identity and profile → IDV (optional) →
-> KYC/AML screening → Account creation → Agreement signing → Funding
+> Product Selection → Application Initiation → Information Collection (4 sub-steps) → Preview & Submission → Data Validation & Compliance Checks → Application Decision → Customer & Account Creation → Credential Setup & Account Funding → Post-Onboarding Provisioning
+
+See the [Onboarding Journey Map](./journey-map.md) for field-level detail, Jira traceability, and BIAN API mappings.
 
 ## Modules at a Glance
 
-- **Prospect Qualification.** Country/business-type checks; case officer
-  recommendation.
-- **Customer Onboarding.** Individual/Corporate creation in MSD, related
-  individuals, case status.
-- **Compliance & Risk.** ComplyAdvantage Mesh screening; sanction/OFAC checks.
-- **Account Opening.** Thought Machine Core and Vault Payments integration.
-- **Document & Signature.** Document Directory, DocuSign templates and
-  webhooks.
-- **Bankers Workbench.** Review, approve, exception handling (in-progress).
-- **Observability & Governance.** Dashboards, schema registry, CI/CD
-  controls.
+- **Product Selection.** Product type, currency, and intended-use selection from configurable dropdowns.
+- **Application Initiation.** Contact capture, de-duplication check, consent, Application ID generation.
+- **Information Collection.** Personal details, identification (IDV via Jumio), contact info, address proof documentation — 4 sequential screens.
+- **Data Validation & Compliance.** ComplyAdvantage KYC/AML screening + Jumio IDV (backend, no customer-facing screen).
+- **Customer & Account Creation.** Thought Machine Vault Core party/account creation; Customer Agreement (consent) APIs.
+- **Credential Setup & Funding.** Username/password setup + first deposit amount (⚠️ no payment provider integration in current release — UI placeholder only).
+- **Bankers Workbench.** Service request dashboard, review/approve, exception handling, user management (in-progress).
+- **Observability & Governance.** Dashboards, schema registry, CI/CD controls.
 
 ## User Roles in FinX Client Onboarding
 
