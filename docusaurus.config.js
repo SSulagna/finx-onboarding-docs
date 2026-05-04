@@ -10,11 +10,13 @@ const config = {
   tagline: 'Internal documentation for onboarding clients onto the FinX platform',
   favicon: 'img/favicon.ico',
 
-  url: 'http://localhost',
-  baseUrl: '/',
+  url: 'https://ssulagna.github.io',
+  baseUrl: '/finx-onboarding-docs/',
 
-  organizationName: 'finx',
+  organizationName: 'SSulagna',
   projectName: 'finx-onboarding-docs',
+  trailingSlash: false,
+  deploymentBranch: 'gh-pages',
 
   onBrokenLinks: 'warn',
 
@@ -49,6 +51,14 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      announcementBar: {
+        id: 'sandbox_notice',
+        content:
+          'FinX Onboarding Guide / Sandbox preview. Content is for review only and not an official release.',
+        backgroundColor: '#fff4ce',
+        textColor: '#5c4400',
+        isCloseable: false,
+      },
       navbar: {
         title: 'Client Onboarding',
         logo: {
