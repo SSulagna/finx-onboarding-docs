@@ -72,6 +72,16 @@ const config = {
             position: 'right',
           },
           {
+            to: '/docs/executive/brief',
+            label: 'Executive Brief',
+            position: 'right',
+          },
+          {
+            to: '/docs/product-business/guide',
+            label: 'Product & Business Guide',
+            position: 'right',
+          },
+          {
             to: '/docs/engineering/architecture-overview',
             label: 'Engineering Guide',
             position: 'right',
@@ -79,6 +89,11 @@ const config = {
           {
             to: '/docs/partner-integration/auth-gateway',
             label: 'Partner Integration Guide',
+            position: 'right',
+          },
+          {
+            to: '/docs/qa-testing/test-strategy',
+            label: 'QA & Testing Guide',
             position: 'right',
           },
         ],

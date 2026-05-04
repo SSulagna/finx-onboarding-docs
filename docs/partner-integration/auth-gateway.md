@@ -8,7 +8,12 @@ sidebar_label: Partner Integration Guide
 
 This guide enables external bank engineering teams and SI partners to integrate with FinX Glue for client onboarding and account opening. It focuses on environment access, authentication, gateway routing, API contracts, and self-service testing.
 
-Use the child pages for hands-on setup and examples: [Authentication & Gateway](#authentication--gateway), [API Contracts](./api-contracts.md), and [Sandbox & Postman](./sandbox-postman.md).
+:::tip Related reading
+- For internal architecture context, see the [Engineering Architecture Overview](../engineering/architecture-overview).
+- For sandbox access and Postman collections, see [Sandbox & Postman](./sandbox-postman).
+:::
+
+Use the child pages for hands-on setup and examples: [Authentication & Gateway](#authentication--gateway-1), [API Contracts](./api-contracts), and [Sandbox & Postman](./sandbox-postman).
 
 ## Who should use this
 

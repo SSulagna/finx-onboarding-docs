@@ -67,6 +67,7 @@ const sidebars = {
         'qa-testing/environment-matrix',
       ],
     },
+    'glossary',
   ],
 };
 

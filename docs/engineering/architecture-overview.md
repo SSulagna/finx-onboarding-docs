@@ -11,6 +11,11 @@ sidebar_label: Engineering Guide
 
 This guide is organized into five engineer-focused sections. Use the Table of Contents to jump to details, or open individual child pages for deep dives.
 
+:::tip Related reading
+- For the partner-facing integration model, see the [Partner Integration Guide](../partner-integration/auth-gateway).
+- For testing strategy and environment matrix, see the [QA & Testing Guide](../qa-testing/test-strategy).
+:::
+
 ## Table of Contents
 
 - [1. Architecture Overview](#1-architecture-overview)

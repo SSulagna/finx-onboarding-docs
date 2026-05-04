@@ -31,18 +31,33 @@ steps:
 - **Observability & Governance.** Dashboards, schema registry, CI/CD
   controls.
 
+## User Roles
+
+FinX onboarding flows assume three primary user roles:
+
+- **Retail Customer.** End user completing self-service onboarding through the Retail Onboarding Portal. Captures identity, completes IDV, signs documents, and funds the account.
+- **Banker.** Bank employee reviewing flagged applications, handling exceptions, and approving cases through the Bankers Workbench. Operates in the human-in-the-loop step of the workflow.
+- **Compliance Officer.** Reviews KYC/AML hits, handles sanctions screening exceptions, and approves or rejects cases that fail automated screening.
+
 ## Configurable Orchestration
 
-- **BPMN-compliant workflows** define step order, branching, and timers.
-- **Schema-driven UI** to add/reorder screens without redeployments.
-- **Rules-driven decisions** for eligibility, risk thresholds, and routing.
+FinX separates business logic from code through three configuration layers, so banks can adapt journeys without engineering releases.
 
-## Outcomes and Metrics
+- **Workflow steps.** BPMN-compliant workflow definitions in Conductor control step order, branching logic, timers, and compensation paths. Adding a new step or reordering existing ones is a workflow edit, not a code change.
+- **UI screens.** Schema-driven UI lets product teams add, remove, or reorder onboarding screens by editing the screen schema. The MFE reads the schema at runtime.
+- **Decision rules.** Eligibility checks, risk thresholds, and routing rules live in a rules engine. Compliance and product teams can update rules without involving engineering.
 
-- Conversion rate through funnel stages.
-- Average time to onboard; KYC pass/fail rates.
-- Exception volume and resolution SLAs.
-- Drop-off heatmaps by step/screen.
+## What FinX Makes Measurable
+
+The platform exposes the following operational signals once instrumented in a deployment:
+
+- Funnel conversion through each onboarding stage
+- Average time to onboard, end to end
+- KYC pass and fail rates, with reason codes
+- Exception volume and resolution SLA performance
+- Drop-off heatmaps by step and screen
+
+Specific dashboards and baseline metrics will be documented as deployments mature.
 
 ## Related Pages
 
