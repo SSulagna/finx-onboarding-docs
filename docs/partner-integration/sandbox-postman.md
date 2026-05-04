@@ -1,66 +1,99 @@
 ---
 id: sandbox-postman
-title: Sandbox and Postman Collection
+title: Sandbox & Postman
 sidebar_label: Sandbox & Postman
 ---
 
-# Sandbox and Postman Collection
+# Sandbox & Postman
 
-The FinX sandbox is a fully isolated environment that mirrors the production
-API surface. Partners use it during the integration phase to build and test
-against stable contracts before requesting production access.
+Use the sandbox environments and collections below to explore APIs and validate payloads before formal onboarding.
 
-## Accessing the sandbox
+## Environments
 
-1. Complete Phases 1-3 of onboarding (intake, KYC clearance, account setup).
-2. Partner Integration Engineering issues a sandbox `client_id` and
-   `client_secret` to the partner's primary technical contact.
-3. The base URL for the sandbox is `https://sandbox.api.finx.local`
-   (placeholder; the real URL is shared in the credentials handoff).
-4. Use the OAuth 2.0 client credentials flow described in
-   [Auth Gateway](./auth-gateway.md) to obtain an access token.
+- **Demo/Sandbox:** public API hostnames per service (see Microservices Details)
+- **Dev/QA/UAT:** provisioned via IaC and ArgoCD; API gateway stages and VPC links configured per environment
 
-## Sandbox limitations
+## Access checklist
 
-- **No real-money settlement.** All transactions are simulated.
-- **Synthetic data only.** Do not upload real PII or production KYC documents
-  to the sandbox.
-- **Reduced rate limits.** Sandbox limits are lower than production; they
-  exist to surface batching and backoff bugs early.
-- **Feature parity is best-effort.** A small number of features (for example,
-  jurisdiction-specific rails) may be stubbed in the sandbox.
-- **Data reset.** Sandbox tenant data is reset on a regular schedule (default
-  every 14 days). Partners are notified by email 48 hours before each reset.
-  An on-demand reset can be requested via the Sandbox Reset API.
+1. Obtain Keycloak client credentials and OIDC realm details
+2. Get API base URL and gateway stage for the target environment
+3. Confirm required headers (`tenant_id`, channel context)
+4. Import Postman collection and set environment variables
+5. Validate one read-only endpoint before attempting write operations
 
-## Postman collection
+## Postman collections
 
-A Postman collection is published alongside each major release of the
-partner-facing APIs. The collection includes:
+- FinX Demo APIs collection: Download
 
-- A pre-configured environment template with placeholders for `client_id`,
-  `client_secret`, and `base_url`.
-- A pre-request script that handles OAuth token acquisition and caching.
-- One folder per API (Onboarding Cases, Documents, Clients, Webhooks,
-  Reporting).
-- Example requests for each endpoint, including error cases.
+## Representative endpoints
 
-> The collection link is to be added once the publishing pipeline is live.
-> Until then, request the latest collection from Partner Integration
-> Engineering.
+**Prospect & Party**
 
-## Common integration test scenarios
+- `POST /v1/corporate-entity`
+- `POST /v1/individuals`
+- `POST /v1/case`
+- `POST /v1/checkEligibility`
 
-| Scenario | Description |
-| --- | --- |
-| Happy-path onboarding | Open a case, upload all required documents, walk through to `Live`. |
-| KYC referral | Submit a case that triggers a manual review, then resolve it. |
-| Document re-upload | Upload an invalid document, receive a rejection, re-upload a valid one. |
-| Webhook delivery | Subscribe to `CaseStateChanged`, verify delivery and signature. |
-| Token expiry | Use an expired token; verify 401 and successful retry after refresh. |
-| Rate limit | Exceed the sandbox rate limit; verify 429 with `Retry-After`. |
-| Idempotent retry | Resend a `POST` with the same idempotency key; verify single effect. |
+**Compliance / KYC**
 
-:::caution
-Work in progress.
+- `POST /ca/v1/scan/individual`
+- `POST /ca/v1/scan/corporate`
+- `POST /ca/v1/scan/beneficiary`
+- `POST /ca/v1/scan/entity/webhook/callback` (for vendor to call)
+
+**Account & Payments**
+
+- `POST /currentAccount/initiate`
+- `GET /currentAccount/{partyReference}/retrieve`
+- `POST /account/vp/v1/paymentInstruments/initiate`
+
+**Documents**
+
+- `POST /v1/documents`
+- `POST /v1/documents/docusign/templates/send`
+
+## Webhook subscriptions (AML Mesh)
+
+Subscribe per environment to receive workflow updates back into FinX:
+
+```http
+POST https://api.us.mesh.complyadvantage.com/v2/webhooks
+Content-Type: application/json
+
+{
+  "is_active": true,
+  "name": "create-and-screen-workflow-completed",
+  "type": "WORKFLOW_COMPLETED",
+  "url": "https://finx-demo-api.fincuro.in/ca/v1/scan/entity/webhook/callback"
+}
+```
+
+:::warning
+Do not reuse webhook URLs across environments. Register `CASE_CREATED`, `CASE_STATE_UPDATED`, and `WORKFLOW_COMPLETED` separately for each environment.
 :::
+
+## Test data guidance
+
+- **Qualify Prospect:** ensure `country` and `business_type` tables are populated consistently across environments
+- **KYC:** use partner-provided non-PII test personas or vendor demo data to trigger both pass and match scenarios
+- **DocuSign:** use demo account and template IDs tied to the environment
+
+## Troubleshooting
+
+**401/403 from Kong or service**
+Validate OIDC token audience and issuer, token expiry, and Keycloak client configuration. Confirm CORS and gateway stage mapping.
+
+**Schema validation errors**
+Compare payloads to the OpenAPI spec in the Schema Registry; avoid sending unknown required fields. If using Business APIs, ensure you are not mixing BIAN-level fields unintentionally.
+
+**Downstream timeouts**
+Check VPC link health, NLB target status, and any inter-region peering routes per Installation Manual.
+
+## References
+
+- Microservices Details
+- Installation Manual
+- FinX Glue - Architecture
+- API & Naming Conventions
+- Schema Registry & SoP
+- Business Capability Target State

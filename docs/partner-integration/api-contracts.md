@@ -6,58 +6,38 @@ sidebar_label: API Contracts
 
 # API Contracts
 
-In FinX, an **API contract** is the binding agreement between a producing
-service and its consumers about the shape, semantics, and stability of an
-API. Contracts are versioned, machine-checkable artifacts, not informal
-documentation.
+FinX Glue uses a strict URL, versioning, and governance model for both BIAN Service APIs and Business APIs. Partners should design against the published contracts and adhere to compatibility rules.
 
-A contract covers:
+## URL schema
 
-- The OpenAPI specification (paths, methods, schemas, error model).
-- The auth requirements and scopes per endpoint.
-- The stability tier (see below).
-- The deprecation policy and notice period.
-- The set of approved consumers, where access is gated.
+```
+/{namespace}/{api-type}/{version}/{service-domain}/{control-record-type}/{operation}
+```
 
-## Partner-facing API contracts
+- `namespace`: enterprise API namespace (e.g., `api.ustfinx.com`)
+- `api-type`: public, internal, or utility
+- `version`: `v1`, `v2` (path-based for REST)
+- `service-domain`: BIAN Service Domain in kebab-case (e.g., `customer-onboarding`)
+- `control-record-type`: functional partition (e.g., `party-reference`)
+- `operation`: BIAN-aligned verb (`initiate`, `retrieve`, `update`, `record`, `execute`)
 
-| Contract | Version | Stability | Notes |
-| --- | --- | --- | --- |
-| Onboarding Cases API | v1 | Stable | Open and track onboarding cases. |
-| Documents API | v1 | Stable | Upload and retrieve KYC documents. |
-| Clients API | v1 | Stable | Read provisioned client and account data. |
-| Webhooks Subscription API | v1 | Stable | Register and manage webhook endpoints. |
-| Reporting API | v1 | Beta | Pull onboarding and KYC reports. Schema may change. |
-| Sandbox Reset API | v1 | Beta | Trigger sandbox data reset for the partner tenant. |
-| Events Stream API | v0 | Experimental | Server-sent events stream of onboarding events. Not for production use. |
+## Versioning and compatibility
 
-### Stability tiers
+- Semantic Versioning via OAS `info.version`
+- Backward-compatible changes allowed as MINOR/PATCH (add optional fields, add endpoints)
+- Breaking changes require MAJOR increment
+- Evented and gRPC APIs follow topic-suffix and package naming versioning respectively
+- Deprecation window: 3 months; latest minus 2 supported; surfaced via response headers and release notes
 
-- **Stable.** Backward-compatible changes only. 12-month deprecation notice.
-- **Beta.** Backward-compatible changes preferred; breaking changes possible
-  with 90-day notice.
-- **Experimental.** No stability guarantees. May be removed or changed without
-  notice. Not approved for production traffic.
+## Schema governance
 
-## Contract change management
+- All OpenAPI YAMLs are stored in the Schema Registry and include `info.version` and `x-bian-version`
+- Changes flow via PR with CI validation (Spectral, oasdiff); merges trigger codegen and contract tests
+- Partners proposing new SDs or extensions follow the SoP with JIRA linkage
 
-1. **Proposal.** The owning team opens an RFC describing the change, the
-   motivation, and the consumer impact.
-2. **Compatibility classification.** The change is classified as backward
-   compatible, breaking, or deprecating an existing surface. CI checks the
-   spec diff against the classification.
-3. **Consumer review.** For breaking or deprecating changes, all approved
-   consumers are notified and given a defined response window.
-4. **Approval.** Stable contracts require sign-off from the API Council.
-   Beta contracts require sign-off from the owning team's tech lead.
-5. **Rollout.** The new contract version is published to the sandbox first
-   and validated by at least one partner before production rollout.
-6. **Deprecation.** Deprecated versions remain available for the notice
-   period and are documented with the planned removal date.
+For target state Business APIs, the same URL and versioning rules apply. The Business Abstraction Layer orchestrates underlying BIAN calls and returns a unified response.
 
-All contracts are versioned in a dedicated repo and published to the internal
-contract catalog.
+## References
 
-:::caution
-Work in progress.
-:::
+- API & Naming Conventions
+- Schema Registry & SoP

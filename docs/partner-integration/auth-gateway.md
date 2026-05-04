@@ -1,69 +1,91 @@
 ---
 id: auth-gateway
-title: Authentication Gateway
-sidebar_label: Auth Gateway
+title: Partner Integration Guide
+sidebar_label: Partner Integration Guide
 ---
 
-# Authentication Gateway
+# Partner Integration Guide
 
-All partner traffic to the FinX platform terminates at the authentication
-gateway. The gateway is responsible for credential validation, scope
-enforcement, rate limiting, and request routing. No service is reachable from
-outside the platform except through this gateway.
+This guide enables external bank engineering teams and SI partners to integrate with FinX Glue for client onboarding and account opening. It focuses on environment access, authentication, gateway routing, API contracts, and self-service testing.
 
-## Supported authentication methods
+Use the child pages for hands-on setup and examples: [Authentication & Gateway](#authentication--gateway), [API Contracts](./api-contracts.md), and [Sandbox & Postman](./sandbox-postman.md).
 
-| Method | Use case | Notes |
-| --- | --- | --- |
-| OAuth 2.0 (client credentials) | Server-to-server partner integrations | Primary method; required for any write API |
-| OAuth 2.0 (authorization code + PKCE) | Partner-hosted applications acting on behalf of an end user | Required for delegated user flows |
-| API Key | Read-only, low-sensitivity endpoints during integration | Limited to non-PII, non-mutating endpoints |
+## Who should use this
 
-API keys are not accepted for production write traffic.
+- Bank platform teams integrating channels to FinX Glue
+- System integrators extending adapters or onboarding new BIAN Service Domains
+- Security teams validating auth flows and API exposure
 
-## Gateway architecture
+## What you get
 
-- **Edge layer** terminates TLS, enforces rate limits, and applies basic
-  request validation.
-- **Auth layer** validates JWTs, exchanges API keys for short-lived internal
-  tokens, and resolves the calling principal and scopes.
-- **Routing layer** forwards the request to the target service over an
-  internal mTLS mesh.
-- **Audit layer** writes a structured access log entry for every request,
-  including principal, scopes, and target endpoint.
+- Standards-based integration via BIAN-aligned Service APIs and evolving Business APIs
+- Config-driven adapters to Thought Machine (core and payments), ComplyAdvantage, DocuSign, and MSD/CIF
+- Governed schemas and predictable versioning
 
-## First-time partner authentication
+## How to navigate
 
-1. The partner is provisioned a sandbox `client_id` and `client_secret` by
-   Partner Integration Engineering during Phase 4 of onboarding.
-2. The partner POSTs to `/oauth/token` on the sandbox token endpoint with
-   `grant_type=client_credentials` and the issued credentials.
-3. The token endpoint returns a short-lived access token (default TTL: 1
-   hour) scoped to the agreed APIs.
-4. The partner attaches the access token as `Authorization: Bearer <token>`
-   on subsequent API calls.
-5. When the token nears expiry, the partner requests a new token using the
-   same client credentials. Refresh tokens are not used in the client
-   credentials flow.
+- Authentication & Gateway - Identity, OIDC, and routing
+- API Contracts - URL schema, versioning, compatibility, and deprecation
+- Sandbox & Postman - Environments, sample calls, and test data guidance
 
-For production, the same flow applies against the production token endpoint
-once the partner is approved for go-live.
+## Current vs. target integration paths
 
-## Token lifecycle and refresh policy
+- **Current:** integrate to BIAN Service APIs; compose multi-call journeys in the channel
+- **Target:** use Business APIs exposed by the Business Abstraction Layer for one-call orchestration (Customer Onboarding, Account Opening)
 
-- **Access token TTL:** 1 hour by default; configurable down to 15 minutes
-  for high-risk partners.
-- **Clock skew tolerance:** 60 seconds.
-- **Rotation:** Client secrets must be rotated at least every 12 months.
-  Rotation is a partner-initiated, gateway-supported flow with a 30-day
-  overlap window.
-- **Revocation:** Compromised credentials can be revoked immediately via the
-  partner support process; revocation propagates to the gateway within 60
-  seconds.
-- **Scope enforcement:** Tokens carry explicit scopes; the gateway rejects
-  any request whose target endpoint requires a scope not present on the
-  token.
+## References
+
+- FinX Glue - Architecture
+- API & Naming Conventions
+- Schema Registry & SoP
+- FinX Microservices Details
+- FinX Installation Manual
+- Business Capability Target State
+
+---
+
+# Authentication & Gateway
+
+This section details how your identity systems connect to FinX Glue through Kong and Keycloak and how requests route to BIAN services and downstream adapters.
+
+## Identity and authentication model
+
+- **Gateway:** Kong is the single ingress for all API traffic
+- **Authorization server:** Keycloak issues and validates tokens; supports OIDC and User Federation
+- **Federation:** Keycloak federates back to your IdP (e.g., Okta, Keycloak, Azure AD) so your users authenticate with your enterprise identity
+
+## High-level flow
+
+1. Client obtains OIDC token from Keycloak (federated to your IdP)
+2. Client calls Kong endpoint with Bearer token
+3. Kong validates token and routes to the correct BIAN microservice based on path
+4. BIAN microservice resolves the target adapter using config (Adapter Config.JSON)
+5. Adapter transforms, calls downstream provider, normalizes response
+
+## Headers and routing context
+
+- `tenant_id` - resolves tenant-specific config and routing
+- `bian_operation_id` - identifies the BIAN operation (e.g., `CurrentAccount_Initiate`)
+- Channel/user context - forwarded in JWT claims and used for authorization
+
+## Environment and network
+
+- Ingress via AWS API Gateway or public DNS fronting Kong
+- Private connectivity to downstream systems via VPC links and, where applicable, inter-region VPC peering (e.g., `ap-south-1` to `us-east-1` for Thought Machine)
 
 :::caution
-Work in progress.
+Coordinate with your FinX contact before exposing any production endpoints. Validate token lifetimes, CORS, and rate limits in lower environments first.
 :::
+
+## References
+
+- FinX Glue - Architecture
+- Installation Manual (networking, API gateway stages, VPC links)
+
+## Changelog
+
+Initial publication on May 4, 2026. Aligns with current state BIAN Service APIs and target state Business Abstraction Layer roadmap.
+
+## Contacts
+
+For access requests and integration reviews, assign an owner such as [Assign Owner] and loop in [Add Engineer] for gateway configuration and [Add Security POC] for OIDC/Keycloak.
