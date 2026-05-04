@@ -1,27 +1,65 @@
 /**
  * FinX docs custom theme overrides.
- * Keep this file lightweight; site-specific tweaks only.
+ * Brand palette pulled from ustfinx.com:
+ *   - Primary teal:   #0097ab
+ *   - Deep charcoal:  #1d242c
+ *   - Cream / off-white: #faf9f6
  */
 
 :root {
-  --ifm-color-primary: #1f6feb;
-  --ifm-color-primary-dark: #1a5fcc;
-  --ifm-color-primary-darker: #1858bf;
-  --ifm-color-primary-darkest: #14499d;
-  --ifm-color-primary-light: #3a83ee;
-  --ifm-color-primary-lighter: #4a8df0;
-  --ifm-color-primary-lightest: #75a8f4;
+  --ifm-color-primary: #0097ab;
+  --ifm-color-primary-dark: #00879a;
+  --ifm-color-primary-darker: #007f91;
+  --ifm-color-primary-darkest: #006978;
+  --ifm-color-primary-light: #1ba6b9;
+  --ifm-color-primary-lighter: #2db1c4;
+  --ifm-color-primary-lightest: #5ac4d3;
+
+  --finx-dark: #1d242c;
+  --finx-cream: #faf9f6;
+
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(31, 111, 235, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(0, 151, 171, 0.10);
+
+  --ifm-navbar-background-color: #1d242c;
+  --ifm-navbar-link-color: #faf9f6;
+  --ifm-navbar-link-hover-color: #0097ab;
+  --ifm-footer-background-color: #1d242c;
+  --ifm-footer-color: #faf9f6;
+  --ifm-footer-link-color: #faf9f6;
+  --ifm-heading-color: #1d242c;
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #58a6ff;
-  --ifm-color-primary-dark: #3d96ff;
-  --ifm-color-primary-darker: #2e8eff;
-  --ifm-color-primary-darkest: #0070e6;
-  --ifm-color-primary-light: #73b6ff;
-  --ifm-color-primary-lighter: #82bdff;
-  --ifm-color-primary-lightest: #b0d3ff;
-  --docusaurus-highlighted-code-line-bg: rgba(88, 166, 255, 0.15);
+  --ifm-color-primary: #1bb1c6;
+  --ifm-color-primary-dark: #16a2b6;
+  --ifm-color-primary-darker: #1499ac;
+  --ifm-color-primary-darkest: #107e8d;
+  --ifm-color-primary-light: #34bccf;
+  --ifm-color-primary-lighter: #4dc7d8;
+  --ifm-color-primary-lightest: #80d6e3;
+  --docusaurus-highlighted-code-line-bg: rgba(27, 177, 198, 0.15);
+
+  --ifm-background-color: #1d242c;
+  --ifm-navbar-background-color: #14191f;
+  --ifm-footer-background-color: #14191f;
+  --ifm-heading-color: #faf9f6;
+}
+
+.navbar__title,
+.navbar__brand {
+  color: var(--finx-cream);
+}
+
+.navbar__link {
+  color: var(--finx-cream);
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: var(--ifm-color-primary-light);
+}
+
+.navbar__logo img {
+  height: 32px;
 }

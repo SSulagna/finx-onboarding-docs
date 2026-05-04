@@ -1,10 +1,10 @@
 ---
 id: brief
-title: Executive Brief — FinX Client Onboarding
+title: Executive Brief - FinX Client Onboarding
 sidebar_label: Executive Brief
 ---
 
-# Executive Brief — FinX Client Onboarding
+# Executive Brief - FinX Client Onboarding
 
 **Audience:** Executives, sponsors, and steering committee.
 **Read time:** ~5 minutes.

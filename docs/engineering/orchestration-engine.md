@@ -24,14 +24,14 @@ service authorized to advance the onboarding case state machine.
 
 The default onboarding workflow advances through these states:
 
-1. `Intake` — case opened, intake form captured.
-2. `KycInProgress` — KYC Engine actively running checks.
-3. `KycComplete` — decision rendered, risk rating assigned.
-4. `AccountProvisioning` — tenant and accounts being created.
-5. `IntegrationInProgress` — sandbox issued, partner building.
-6. `IntegrationComplete` — all in-scope test scenarios passed.
-7. `GoLiveRequested` — production access requested.
-8. `Live` — case closed; client is live in production.
+1. `Intake` - case opened, intake form captured.
+2. `KycInProgress` - KYC Engine actively running checks.
+3. `KycComplete` - decision rendered, risk rating assigned.
+4. `AccountProvisioning` - tenant and accounts being created.
+5. `IntegrationInProgress` - sandbox issued, partner building.
+6. `IntegrationComplete` - all in-scope test scenarios passed.
+7. `GoLiveRequested` - production access requested.
+8. `Live` - case closed; client is live in production.
 
 Each transition is event-sourced. The orchestrator publishes a
 `CaseStateChanged` event on every transition.

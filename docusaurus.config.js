@@ -50,10 +50,10 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'FinX Client Onboarding',
+        title: 'Client Onboarding',
         logo: {
-          alt: 'FinX Logo',
-          src: 'img/logo.svg',
+          alt: 'FinX',
+          src: 'img/finx-logo.svg',
         },
         items: [
           {
@@ -74,7 +74,7 @@ const config = {
         ],
       },
       footer: {
-        style: 'light',
+        style: 'dark',
         copyright:
           'FinX Internal Documentation. For authorized personnel only.',
       },

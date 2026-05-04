@@ -1,10 +1,10 @@
 ---
 id: hub
-title: FinX Client Onboarding — Hub
+title: FinX Client Onboarding - Hub
 sidebar_label: Hub
 ---
 
-# FinX Client Onboarding — Hub
+# FinX Client Onboarding - Hub
 
 **Purpose:** This hub organizes everything related to client onboarding in
 FinX, tailored for different audiences. Use the navigation below to jump to
@@ -12,11 +12,11 @@ the content that matches your role.
 
 ## Audience Navigation
 
-- [Executive Brief](./executive/brief.md) — Strategy, outcomes, risks, and milestones
-- [Product & Business Guide](./product-business/guide.md) — Journeys, modules, and compliance
-- [Onboarding Journey Map](./product-business/journey-map.md) — Step-by-step flow from lead to funded account
-- [Module Overview](./product-business/module-overview.md) — What each FinX component does in onboarding
-- [Compliance & KYC Touchpoints](./product-business/compliance-kyc.md) — Where and how KYC/AML controls are applied
+- [Executive Brief](./executive/brief.md) - Strategy, outcomes, risks, and milestones
+- [Product & Business Guide](./product-business/guide.md) - Journeys, modules, and compliance
+- [Onboarding Journey Map](./product-business/journey-map.md) - Step-by-step flow from lead to funded account
+- [Module Overview](./product-business/module-overview.md) - What each FinX component does in onboarding
+- [Compliance & KYC Touchpoints](./product-business/compliance-kyc.md) - Where and how KYC/AML controls are applied
 
 ## What is FinX Client Onboarding?
 

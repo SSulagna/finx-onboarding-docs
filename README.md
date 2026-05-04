@@ -22,12 +22,12 @@ Output is written to `build/`.
 
 ## Project structure
 
-- `docs/` — Markdown content, organized by audience (executive, product,
+- `docs/` - Markdown content, organized by audience (executive, product,
   engineering, partner integration, QA).
-- `src/pages/index.js` — Custom landing page.
-- `sidebars.js` — Sidebar navigation configuration.
-- `docusaurus.config.js` — Site configuration.
-- `static/` — Static assets (images, etc.).
+- `src/pages/index.js` - Custom landing page.
+- `sidebars.js` - Sidebar navigation configuration.
+- `docusaurus.config.js` - Site configuration.
+- `static/` - Static assets (images, etc.).
 
 ## Distribution
 

@@ -12,7 +12,7 @@ against stable contracts before requesting production access.
 
 ## Accessing the sandbox
 
-1. Complete Phases 1–3 of onboarding (intake, KYC clearance, account setup).
+1. Complete Phases 1-3 of onboarding (intake, KYC clearance, account setup).
 2. Partner Integration Engineering issues a sandbox `client_id` and
    `client_secret` to the partner's primary technical contact.
 3. The base URL for the sandbox is `https://sandbox.api.finx.local`

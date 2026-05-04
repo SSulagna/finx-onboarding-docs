@@ -51,15 +51,15 @@ observable workflows.
 
 ## Related Architecture and Standards
 
-- FinX Glue Architecture — Kong, Keycloak, BIAN microservices, adapter layer
-- Business Capability Target State — Business Abstraction Layer and
+- FinX Glue Architecture - Kong, Keycloak, BIAN microservices, adapter layer
+- Business Capability Target State - Business Abstraction Layer and
   Business APIs
-- Process & Orchestration — Conductor, Saga/compensation, HITL,
+- Process & Orchestration - Conductor, Saga/compensation, HITL,
   schema-driven UI
-- Schema Registry & SoP — Governance, CI validation, roles and RACI
-- FinX Microservices — Services used across onboarding and operations
-- Savings Account E2E Requirements — UI journey artifacts and open questions
-- Jira: KYC Check (FBSA-20) — ComplyAdvantage Mesh request/response examples
+- Schema Registry & SoP - Governance, CI validation, roles and RACI
+- FinX Microservices - Services used across onboarding and operations
+- Savings Account E2E Requirements - UI journey artifacts and open questions
+- Jira: KYC Check (FBSA-20) - ComplyAdvantage Mesh request/response examples
 
 ## FAQ
 
@@ -79,8 +79,8 @@ enforcement.
 
 ## References
 
-- Retail Onboarding — Individual Customer
-- Project Plan – Onboarding and Portal Program
+- Retail Onboarding - Individual Customer
+- Project Plan - Onboarding and Portal Program
 - FinX Bank Savings Account E2E Requirements
 - FinX Glue Architecture
 - Schema Registry & SoP

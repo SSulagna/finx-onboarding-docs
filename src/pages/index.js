@@ -3,8 +3,8 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
 const heroStyle = {
-  background: 'linear-gradient(135deg, #0b1f3a 0%, #14375e 100%)',
-  color: '#ffffff',
+  background: 'linear-gradient(135deg, #1d242c 0%, #0b6c7a 60%, #0097ab 100%)',
+  color: '#faf9f6',
   padding: '5rem 1.5rem 4rem 1.5rem',
   textAlign: 'center',
 };
@@ -49,7 +49,7 @@ const cardLabelStyle = {
   fontWeight: 600,
   letterSpacing: '0.08em',
   textTransform: 'uppercase',
-  color: '#1f6feb',
+  color: '#0097ab',
   marginBottom: '0.5rem',
 };
 
@@ -57,7 +57,7 @@ const cardTitleStyle = {
   fontSize: '1.25rem',
   fontWeight: 600,
   margin: '0 0 0.5rem 0',
-  color: '#0b1f3a',
+  color: '#1d242c',
 };
 
 const cardDescStyle = {
@@ -103,8 +103,8 @@ function AudienceCard({ label, title, description, href }) {
     ? {
         ...cardStyle,
         transform: 'translateY(-2px)',
-        boxShadow: '0 8px 20px rgba(15, 23, 42, 0.08)',
-        borderColor: '#1f6feb',
+        boxShadow: '0 8px 20px rgba(29, 36, 44, 0.10)',
+        borderColor: '#0097ab',
       }
     : cardStyle;
 
