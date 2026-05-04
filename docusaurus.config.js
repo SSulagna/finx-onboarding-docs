@@ -17,7 +17,12 @@ const config = {
   projectName: 'finx-onboarding-docs',
 
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   i18n: {
     defaultLocale: 'en',
@@ -35,7 +40,7 @@ const config = {
         },
         blog: false,
         theme: {
-          customCss: [],
+          customCss: require.resolve('./src/css/custom.css'),
         },
       }),
     ],
