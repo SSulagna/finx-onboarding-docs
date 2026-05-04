@@ -1,33 +1,77 @@
 ---
 id: module-overview
-title: Platform Module Overview
+title: Module Overview
 sidebar_label: Module Overview
 ---
 
-# Platform Module Overview
+# Module Overview
 
-The following FinX platform modules are directly involved in onboarding a new
-client. Each module is owned by a single team and has explicit upstream and
-downstream dependencies that are documented in the engineering registry.
+This section outlines the core modules and representative APIs used within
+the onboarding journey. Exact endpoints and environments are managed via
+**Kong/Keycloak** and governed by the **Schema Registry**.
 
-| Module Name | Purpose | Dependencies | Owner Team |
-| --- | --- | --- | --- |
-| KYC Engine | Runs identity verification, sanctions, PEP, and adverse media checks. Produces a risk rating. | Document Vault, External screening providers | Compliance Platform |
-| Account Provisioning | Creates tenant structures, primary and sub-accounts, and entitlement profiles. | Identity Service, KYC Engine | Platform Operations |
-| Transaction Routing | Selects the correct rails and counterparty for each transaction based on client configuration. | Account Provisioning, Compliance Rules Engine | Payments Platform |
-| Compliance Rules Engine | Evaluates transactions and events against configurable rule sets; generates alerts and holds. | KYC Engine, Audit Log | Compliance Platform |
-| Notification Service | Delivers transactional and operational notifications via email, webhook, and SMS. | Account Provisioning, Identity Service | Client Experience |
-| Reporting & Audit | Produces regulatory and operational reports; serves as the immutable audit trail. | All modules (read-only consumers) | Data Platform |
-| Identity Service | Manages users, roles, API credentials, and OAuth clients. | None (foundational) | Identity & Access |
-| Document Vault | Stores KYC and contractual documents with retention controls. | Identity Service | Compliance Platform |
+## Prospect & Party Management
 
-## Notes
+**Prospect Qualification**
+- Check eligibility (country/business type).
+- Data store: `qualify_prospect_db`; governance: ensure env parity.
 
-- The list above is the minimum surface area touched during onboarding. Other
-  modules (for example, ledger and reconciliation) are dependencies of these
-  modules but are not directly configured during onboarding.
-- Module ownership is authoritative. Any change request goes to the owning
-  team via the standard change process.
+**Customer Information File (CIF) / MSD Party**
+- Corporate and Individual CRUD, related individuals, case and `appForm`
+  status.
+- Executive management, authorized signatories, account users,
+  shareholders.
+
+## Compliance & Risk
+
+**ComplyAdvantage Mesh adapter**
+- Individual / Corporate / Beneficiary screening; webhook callbacks;
+  scan history.
+- Webhook subscriptions per env: `CASE_CREATED`, `CASE_STATE_UPDATED`,
+  `WORKFLOW_COMPLETED`.
+
+**Transaction monitoring**
+- Transaction screening and callbacks (post-onboarding / ongoing
+  monitoring).
+
+## Account Opening & Payments
+
+**Thought Machine Vault Core**
+- Create / search / update customer in Vault Core.
+
+**Account services**
+- Account initiation/retrieval; status/identifier updates; VP link/instruments.
+- Variants: V1 / V2 and Vault Payments workflow.
+
+## Documents & E-signature
+
+**DocuSign integration**
+- S3 upload / signed URL; MSD document CRUD; send template; status;
+  webhook via AWS Lambda.
+
+## Orchestration & UI
+
+**Conductor OSS engine**
+- BPMN-compliant workflows.
+
+**Schema-driven UI orchestration**
+- Runtime screen sequencing and validation.
+
+## Entitlements & Controls
+
+- Users / roles; maker-checker groups and limits.
+- Transaction validation / approval; audit.
+
+## Observability & Data
+
+- Kafka consumers and transformation services (Dev focus) for TM/VP topics.
+- Grafana / Prometheus / Loki dashboards for API / workflow health.
+
+---
+
+API and naming standards follow **FinX GLUE** conventions; service-to-target
+mappings and transformations are config-driven via Adapter and Target
+configuration JSONs.
 
 :::caution
 Work in progress.

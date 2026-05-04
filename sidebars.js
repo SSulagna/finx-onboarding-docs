@@ -26,6 +26,7 @@ const sidebars = {
       collapsible: true,
       collapsed: true,
       items: [
+        'product-business/guide',
         'product-business/journey-map',
         'product-business/module-overview',
         'product-business/compliance-kyc',

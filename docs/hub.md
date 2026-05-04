@@ -1,42 +1,37 @@
 ---
 id: hub
-title: FinX Onboarding Documentation Hub
-sidebar_label: Documentation Hub
+title: FinX Client Onboarding — Hub
+sidebar_label: Hub
 ---
 
-# FinX Onboarding Documentation Hub
+# FinX Client Onboarding — Hub
 
-This site is the central reference for the **FinX Client Onboarding** program. It
-consolidates the executive, product, engineering, partner integration, and QA
-documentation required to bring a new client onto the FinX platform.
+**Purpose:** This hub organizes everything related to client onboarding in
+FinX, tailored for different audiences. Use the navigation below to jump to
+the content that matches your role.
 
-## About FinX
+## Audience Navigation
 
-FinX is an internal fintech platform that powers client account provisioning,
-KYC/AML workflows, transaction routing, and partner-facing APIs for regulated
-banking and payments use cases. Onboarding a client into FinX spans business
-sign-off, compliance review, technical integration, and a controlled go-live.
+- [Executive Brief](./executive/brief.md) — Strategy, outcomes, risks, and milestones
+- [Product & Business Guide](./product-business/guide.md) — Journeys, modules, and compliance
+- [Onboarding Journey Map](./product-business/journey-map.md) — Step-by-step flow from lead to funded account
+- [Module Overview](./product-business/module-overview.md) — What each FinX component does in onboarding
+- [Compliance & KYC Touchpoints](./product-business/compliance-kyc.md) — Where and how KYC/AML controls are applied
 
-## Documentation sections
+## What is FinX Client Onboarding?
 
-| Section | Audience | Purpose |
-| --- | --- | --- |
-| Executive Brief | Leadership, sponsors | Business value, timeline, sign-off, risk summary |
-| Product & Business Guide | Product managers, business analysts, compliance | Journey map, modules, KYC touchpoints |
-| Engineering Guide | Platform and onboarding engineers | Architecture, microservices, schemas, orchestration, APIs |
-| Partner Integration Guide | External partners and integrators | Auth gateway, contracts, sandbox |
-| QA & Testing Guide | QA leads and SDETs | Strategy, scenarios, environment matrix |
+FinX Client Onboarding is a composable, BIAN-aligned capability that
+digitizes account opening and customer onboarding for banks. It combines
+configurable UI journeys, workflow orchestration, BIAN service APIs, and
+adapters to providers like **Thought Machine** (core), **ComplyAdvantage**
+(KYC/AML), and **DocuSign** (e-signature).
 
-## How to use this site
+## Key Concepts
 
-- Start at the audience landing page if you are unsure where to go.
-- Use the left sidebar to navigate within a guide.
-- Each guide is self-contained; cross-links are provided where flows span teams.
-
-## Distribution
-
-This documentation is internal to FinX engineering, product, and partner teams.
-It is **not** intended for external publication or customer distribution.
+- **BIAN-aligned service domains** for canonical APIs and data contracts
+- **Business Abstraction Layer** for one-call Business APIs (target state)
+- **Conductor-based orchestration** with Saga/compensation and HITL
+- **Schema Registry governance** for versioned, auditable API contracts
 
 :::info
 This documentation is under active development.

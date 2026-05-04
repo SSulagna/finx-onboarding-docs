@@ -1,83 +1,72 @@
 ---
 id: journey-map
-title: Client Onboarding Journey Map
+title: Onboarding Journey Map
 sidebar_label: Journey Map
 ---
 
-# Client Onboarding Journey Map
+# Onboarding Journey Map
 
-This page describes the end-to-end onboarding journey as a sequence of five
-phases. Each phase has explicit entry criteria, key activities, exit criteria,
-and a single accountable owner.
+The end-to-end retail onboarding journey. Steps can be re-ordered or
+toggled via workflow and UI schema configuration.
 
-## Phase 1: Pre-onboarding
+## 1. Prospect Qualification
 
-- **Entry criteria**
-  - Signed commercial term sheet or letter of intent.
-  - Designated client sponsor and primary technical contact.
-- **Key activities**
-  - Capture intake form (legal entity, jurisdictions, products in scope).
-  - Initial scoping review with Product and Compliance.
-  - Assign onboarding case ID and case manager.
-- **Exit criteria**
-  - Intake form complete and reviewed.
-  - Onboarding case opened in the workflow tracker.
-- **Owner:** Onboarding Case Manager.
+- **Inputs:** Country of residence/incorporation; business type.
+- **Outcome:** Eligible/Ineligible with reason codes; optional case officer
+  recommendation.
+- **Service:** `finx-qualify-prospect-service-papi`
 
-## Phase 2: KYC & Compliance
+## 2. Personal / Entity Details
 
-- **Entry criteria**
-  - Onboarding case open.
-  - Required KYC document checklist shared with the client.
-- **Key activities**
-  - Collect and verify KYC documentation.
-  - Run sanctions, PEP, and adverse media screening.
-  - Assign client risk rating; trigger EDD if required.
-- **Exit criteria**
-  - Compliance Officer approval recorded.
-  - Risk rating assigned and stored against the client record.
-- **Owner:** Compliance Operations.
+- **Individual:** Personal details, contact info, address.
+- **Corporate:** Entity details; directors/executive management; authorized
+  signatories; account users; shareholders.
+- **Services:** `finx-customer-onboarding-service-papi`,
+  `finx-shareholder-service-papi`
 
-## Phase 3: Account Setup
+## 3. ID Verification (Optional)
 
-- **Entry criteria**
-  - Compliance approval from Phase 2.
-- **Key activities**
-  - Provision tenant and primary account structures.
-  - Configure entitlements, limits, and notification preferences.
-  - Issue sandbox credentials to the client integration team.
-- **Exit criteria**
-  - Tenant active in non-production with valid sandbox credentials.
-  - Account configuration peer-reviewed.
-- **Owner:** Platform Operations.
+- Third-party IDV provider (e.g., **Jumio**) for document and liveness
+  checks.
+- **Outcome:** Verified / Manual review / Fail with reason.
 
-## Phase 4: Integration
+## 4. KYC / AML Screening
 
-- **Entry criteria**
-  - Sandbox credentials issued.
-  - Integration scope agreed (APIs, webhooks, file feeds).
-- **Key activities**
-  - Client implements against the sandbox.
-  - Joint integration tests using the scenario catalog.
-  - Contract reviews and final sign-off on API versions in use.
-- **Exit criteria**
-  - All in-scope integration test scenarios passed.
-  - Production access request approved.
-- **Owner:** Partner Integration Engineering.
+- **Provider:** ComplyAdvantage Mesh via
+  `finx-amln-fraud-detection-adapter`.
+- **Flow:** Create-and-screen sync workflow; receive webhook updates;
+  persist scan history.
+- **Outcome:**
+  - No profiles → proceed.
+  - Matches → configurable error.
+  - Manual review → HITL task.
 
-## Phase 5: Go-Live
+## 5. Case Management & Approvals
 
-- **Entry criteria**
-  - Integration phase complete and signed off.
-  - Operations runbook acknowledged by the client.
-- **Key activities**
-  - Production credentials issued.
-  - Controlled cutover with monitoring in place.
-  - Hypercare window with daily check-ins.
-- **Exit criteria**
-  - Stable production traffic for the agreed hypercare period.
-  - Go-live sign-off recorded by the client sponsor and Operations Lead.
-- **Owner:** Operations Lead.
+- Create application case; track `appForm` status.
+- Human-in-the-loop approvals with SLA and escalation rules.
+
+## 6. Account Creation
+
+- **Core:** Thought Machine Vault Core account creation; retrieve accounts;
+  set identifiers/status.
+- **Payments:** Vault Payments link and instruments (when applicable).
+- **Services:** `finx-celta-tm-account-service`,
+  `finx-celta-tm-party-service`.
+
+## 7. Document Signing
+
+- Create documents; send DocuSign template; handle webhook callbacks.
+- **Service:** `finx-celta-docusign-security`; Document Directory.
+
+## 8. Account Funding
+
+- Initiate funding flows or mark ready-for-use.
+- Entitlements configured for maker-checker approvals where required.
+
+## 9. Post-Onboarding
+
+- Customer portal provisioning; optional onboarding checklist in BWB.
 
 :::caution
 Work in progress.
