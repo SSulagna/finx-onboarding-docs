@@ -10,8 +10,18 @@ Use the sandbox environments and collections below to explore APIs and validate 
 
 ## Environments
 
-- **Demo/Sandbox:** public API hostnames per service (see Microservices Details)
-- **Dev/QA/UAT:** provisioned via IaC and ArgoCD; API gateway stages and VPC links configured per environment
+From *FinX Environments*:
+
+| Environment | Purpose | Typical Activities |
+| --- | --- | --- |
+| **DEV** | Feature development, early-stage testing | API dev, contract validation, adapter testing, CI/CD validation, SAST/SCA scans |
+| **QA** | Functional correctness across integrated components | E2E workflow testing, BIAN SD validation, API contract validation, regression, RBAC validation |
+| **PERF** | Scalability, throughput, stability under load | Load testing (TPS), workflow concurrency, latency (p95/p99), infrastructure scaling, rate-limiting |
+| **DEMO** | Production-equivalent for customers | Customer demos, integration showcases, security/observability/governance features, release readiness |
+
+**Promotion Flow:** DEV → QA → PERF → DEMO
+
+**Demo Gateway Base URL:** `https://finx-demo-api.fincuro.in`
 
 ## Access checklist
 
@@ -23,7 +33,9 @@ Use the sandbox environments and collections below to explore APIs and validate 
 
 ## Postman collections
 
-- FinX Demo APIs collection: Download
+- **FinX Demo APIs collection:** `Finx-Demo-APIs-1107.postman_collection.json` — contains all Demo API endpoints organized by service.
+
+*Source: Finx Microservices Details*
 
 ## Representative endpoints
 
@@ -69,29 +81,39 @@ Content-Type: application/json
 ```
 
 :::warning
-Do not reuse webhook URLs across environments. Register `CASE_CREATED`, `CASE_STATE_UPDATED`, and `WORKFLOW_COMPLETED` separately for each environment.
+Do not reuse webhook URLs across environments. Register `CASE_CREATED`, `CASE_STATE_UPDATED`, and `WORKFLOW_COMPLETED` separately for each environment. Webhook subscription for transaction screening is performed manually by contacting CA support.
 :::
+
+## Important notes
+
+- **Kafka consumers/transforms run only in Dev** — even when using Demo URLs, Kafka transformation occurs in Dev because Kafka has a single API endpoint configured for the stage environment.
+- **ComplyAdvantage webhook subscription** for transaction screening is performed manually by contacting CA support.
+- **Entitlement service** requires initial setup: create Maker and Checker roles via API after deployment on new environment.
+
+*Source: Finx Microservices Details*
 
 ## Test data guidance
 
-- **Qualify Prospect:** ensure `country` and `business_type` tables are populated consistently across environments
+- **Product Selection:** ensure product/account/currency lookup master tables are populated consistently across environments
 - **KYC:** use partner-provided non-PII test personas or vendor demo data to trigger both pass and match scenarios
 - **DocuSign:** use demo account and template IDs tied to the environment
 
 ## Troubleshooting
 
 **401/403 from Kong or service**
-Validate OIDC token audience and issuer, token expiry, and Keycloak client configuration. Confirm CORS and gateway stage mapping.
+Validate OIDC token audience and issuer, token expiry, and Keycloak client configuration. Confirm CORS and gateway stage mapping. Authentication method across all services is Azure AD (except webhook endpoints which are excluded from auth).
 
 **Schema validation errors**
 Compare payloads to the OpenAPI spec in the Schema Registry; avoid sending unknown required fields. If using Business APIs, ensure you are not mixing BIAN-level fields unintentionally.
 
 **Downstream timeouts**
-Check VPC link health, NLB target status, and any inter-region peering routes per Installation Manual.
+Check VPC link health, NLB target status, and any inter-region peering routes (ap-south-1 to us-east-1 for Thought Machine). Refer to Installation Manual.
 
 ## References
 
-- Microservices Details
+- Finx Microservices Details
+- FinX-Celta Services List
+- FinX Environments
 - Installation Manual
 - FinX Glue - Architecture
 - API & Naming Conventions
