@@ -8,7 +8,7 @@
 const config = {
   title: 'FinX Client Onboarding',
   tagline: 'Internal documentation for onboarding clients onto the FinX platform',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   url: 'https://ssulagna.github.io',
   baseUrl: '/finx-onboarding-docs/',

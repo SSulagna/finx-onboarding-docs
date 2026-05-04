@@ -39,30 +39,29 @@ adapters to providers like **Thought Machine** (core), **ComplyAdvantage**
 
 ### BIAN-Aligned Service Domains
 
-FinX Glue structures all APIs around BIAN Service Domains (SDs) - discrete business capability boundaries that each own a specific functional pattern applied to an asset (e.g., Current Account, Savings Account). APIs follow BIAN semantics using Service Domains, Control Records (CRs), and Behavior Qualifiers (BQs). All API and schema ownership, access control, and lifecycle policies are SD-scoped. FinX currently has seven Implemented SDs (Current Account, Savings Account, Term Deposit, Customer Product & Service Directory, Customer Agreement, Document Directory, Position Keeping) and three Planned SDs (Party Lifecycle Management, Customer Offer, Product Directory), all aligned to BIAN version 14.0.0. One microservice is created per SD, and one adapter per target system.
+FinX Glue structures all APIs around BIAN Service Domains (SDs) — discrete business capabilities with clear boundaries (e.g., Current Account, Savings Account). Each SD owns its primary business object and operations. APIs follow BIAN semantics using Service Domains, Control Records (CRs), and Behavior Qualifiers (BQs), with standard action terms such as initiate, retrieve, update, execute, evaluate, control, register, and notify. FinX currently has seven Implemented SDs (Current Account, Savings Account, Term Deposit, Customer Product & Service Directory, Customer Agreement, Document Directory, Position Keeping) and three Planned SDs (Party Lifecycle Management, Customer Offer, Product Directory), all aligned to BIAN version 14.0.0. One microservice is created per SD, and one adapter per target system.
 
-*Sources: BIAN Glossary and Standards - FinX Context; FinX Service Domain and Microservice Registry Overview and Governance*
+*Sources: BIAN Glossary and Standards - FinX Context · FinX Service Domain and Microservice Registry Overview and Governance*
 
 ### Business Abstraction Layer (Target State)
 
-The Business Abstraction Layer is the new architectural layer being introduced on top of the existing BIAN Service APIs and Adapter Framework. It exposes business capabilities - specifically Account Opening and Customer Onboarding - as single-call Business APIs. Its responsibilities are: orchestration, policy enforcement, state management, and unified response. Today, channels must orchestrate multiple BIAN API calls per journey, managing sequencing, retries, and error handling themselves. In the target state, channels call one Business API and FinX Glue handles all orchestration internally. BIAN APIs remain intact and are used internally by the abstraction layer; they may still be exposed selectively for advanced or internal use cases.
+The Business Abstraction Layer is the new architectural layer being introduced on top of the existing BIAN Service APIs and Adapter Framework. It exposes business capabilities — specifically Account Opening and Customer Onboarding — as single-call Business APIs. Its responsibilities: orchestration, policy enforcement, state management, and unified response. Today, channels must orchestrate multiple BIAN API calls per journey. In the target state, channels call one Business API and FinX Glue handles all orchestration internally. BIAN APIs remain intact and are used internally by the abstraction layer.
 
 *Source: Transitioning FinX Glue to a Business Capability Platform: Current and Target States*
 
 ### Conductor-Based Orchestration
 
-FinX Glue uses Conductor OSS as the orchestration backbone, enhanced to support BPMN-compliant workflow definitions (JSON/YAML) for modelling processes aligned to industry-standard notation. It orchestrates microservices, APIs, events, human tasks, and UI steps, supporting process states such as wait, resume, parallelization, branching, timers, retries, and escalations, with version-controlled workflow lifecycle management across environments. Key extensions include:
+FinX Glue uses Conductor OSS as the orchestration backbone, enhanced for BPMN-compliant workflow definitions (JSON/YAML). It supports wait, resume, parallelization, branching, timers, retries, and escalations with version-controlled lifecycle management. Key extensions:
 
-- **Saga & Compensation Patterns** - reversible and irreversible compensation templates with checkpointing, undo logic, fallback routing, and state recovery; domain-ready blueprints for onboarding, payments, lending, servicing, and operations.
-- **Human-in-the-Loop (HITL)** - task types with SLA timers, auto-escalation, delegation, and audit history; Workflow Workbench UI for review/approve/reject; role-based routing, assignment, queueing, and SoD-aware dual approvals.
-- **Decisioning & Rules Engine** - pluggable integration with Drools, DMN, Decision Tables, or FinX Lightweight Rules Engine; runtime evaluation for routing, eligibility, validation, scoring, and exception handling.
-- **Schema-Driven UI Orchestration** - UI experience derived from workflow and UI schema definitions; dynamic screen sequencing (add/remove/reorder screens through config, not code); rule-based conditional navigation; consistent runtime updates across Web and Mobile channels without redeployments.
+- **Saga & Compensation** — reversible/irreversible templates with checkpointing, undo logic, fallback routing, state recovery; domain-ready blueprints for onboarding, payments, lending.
+- **HITL** — task types with SLA timers, auto-escalation, delegation; Workflow Workbench UI; role-based routing and SoD-aware dual approvals.
+- **Schema-Driven UI Orchestration** — dynamic screen sequencing from workflow + UI schema; add/remove/reorder screens without code; cross-channel (Web + Mobile) consistency without redeployments.
 
 *Source: Process & Orchestration*
 
 ### Schema Registry Governance
 
-The FinX Glue Schema Registry is a version-controlled, GitHub-hosted repository of BIAN-aligned OpenAPI Specification (OAS) YAML schemas. It acts as the single source of truth for all canonical data contracts governing APIs, events, and adapter interfaces. It uses a dual-version model: `info.version` (SemVer - MAJOR.MINOR.PATCH for API evolution) and `x-bian-version` (BIAN specification version, e.g., 14.0.0). Governance follows a two-team workflow: the BIAN Team owns specification domain knowledge, drives schema customisations, and raises PRs; the Glue Team owns the GitHub registry, performs the initial V0 commit of base BIAN specs, reviews PRs, and enforces technical standards. CI validation runs at two stages: design-time (OAS lint via Spectral, breaking-change detection via oasdiff, x-bian-version presence check) and build-time (code generation conformance, contract tests, payload schema validation). Design-time failures block PR merge; build-time failures fail pipeline deployment. A full RACI matrix governs all 11 lifecycle activities across BIAN Team, Glue Team, and DevOps.
+The FinX Glue Schema Registry is a version-controlled, GitHub-hosted repository of BIAN-aligned OAS YAML schemas — the single source of truth for all canonical data contracts. It uses a dual-version model: info.version (SemVer) and x-bian-version (e.g., 14.0.0). Governance follows a two-team workflow: the BIAN Team owns spec domain knowledge and raises PRs; the Glue Team owns the registry, reviews PRs, and enforces standards. CI validation runs at two stages: design-time (OAS lint via Spectral, breaking-change detection via oasdiff) and build-time (code generation conformance, contract tests, payload validation). Failures block PR merge or pipeline deployment respectively.
 
 *Source: Schema Registry and SoP for onboarding new BIAN services in Glue*
 
