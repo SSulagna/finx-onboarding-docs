@@ -84,7 +84,7 @@ The journey proceeds through two screens. First, the Application Initiation scre
 
 ### Behind the scenes
 
-On the Application Initiation screen, `finx-customer-onboarding-service-papi` performs a de-duplication check against existing customer data via the PartyReferenceDataDirectory BIAN SD. If no duplicate is found, an Application ID is generated and stored in the backend. On the Personal Details screen, no API calls are made; data is stored in local state (Pinia store). The BIAN mapping is PartyReferenceDataDirectory/Register for name fields and PartyReferenceDataDirectory/{id}/Reference/{referenceid}/Update for date of birth.
+On the Application Initiation screen, `finx-customer-onboarding-service-papi` performs a de-duplication check against existing customer data via the PartyReferenceDataDirectory BIAN SD. If no duplicate is found, an Application ID is generated and stored in the backend. On the Personal Details screen, no API calls are made; data is stored in local state (Pinia store). The BIAN mapping is `PartyReferenceDataDirectory/Register` for name fields and `PartyReferenceDataDirectory/:id/Reference/:referenceId/Update` for date of birth.
 
 ### Exit conditions
 
@@ -110,16 +110,16 @@ On the Identification Details screen (Screen 3.2), the customer selects an ID Ty
 | Field | Type | Required | Validation |
 | --- | --- | --- | --- |
 | ID Type | Dropdown | Yes | Values: Passport, Driving License, National ID Card. Hover tooltip shows ID Type information. Acceptable doc types configurable. |
-| ID Number | String | Yes | [Source needed] |
-| Issuing State | String | Yes | [Source needed] |
+| ID Number | String | Yes | Source needed |
+| Issuing State | String | Yes | Source needed |
 | Issue Date | Date picker | Yes | Must not be greater than present date. |
 | Expiration Date | Date picker | Yes | Must be greater than Issue Date. |
-| Issuing Authority | String | Yes | [Source needed] |
+| Issuing Authority | String | Yes | Source needed |
 | Upload Document (front + back) | File upload | Yes | Max file size: 2 MB. Accepted types: JPG, PNG, PDF. Error messages for invalid files. |
 
 ### Behind the scenes
 
-The IDV adapter executes a fully asynchronous, 10-step processing pipeline after the customer submits the application. The channel has no visibility into the internal steps; it only calls Initiate (to trigger) and Retrieve (to poll for result). The BIAN contract is POST /PartyLifecycleManagement/{partylifecyclemanagementId}/IdentityProofing/Initiate. The adapter validates user consent immediately, creates a PLM Identity Proofing BQ record, calls the Document Directory to retrieve S3 URLs for front and back images, downloads images from S3, calls the Jumio Account Creation API (Workflow 2, which requires only front and back document images, not face/selfie), uploads both images to Jumio, calls Finalize Workflow, waits approximately 10-15 seconds, then calls Fetch Result to receive the decision block including risk score. The complete Jumio Account API response and Fetch Result response are stored verbatim in InstructionDescription for audit. AssessmentResult is derived from decision.risk.score: 0-30 = PASSED, 31-70 = WARNING, 71-100 = REJECTED, -1 = NOT_EXECUTED.
+The IDV adapter executes a fully asynchronous, 10-step processing pipeline after the customer submits the application. The channel has no visibility into the internal steps; it only calls Initiate (to trigger) and Retrieve (to poll for result). The BIAN contract is `POST /PartyLifecycleManagement/:partyLifecycleManagementId/IdentityProofing/Initiate`. The adapter validates user consent immediately, creates a PLM Identity Proofing BQ record, calls the Document Directory to retrieve S3 URLs for front and back images, downloads images from S3, calls the Jumio Account Creation API (Workflow 2, which requires only front and back document images, not face/selfie), uploads both images to Jumio, calls Finalize Workflow, waits approximately 10-15 seconds, then calls Fetch Result to receive the decision block including risk score. The complete Jumio Account API response and Fetch Result response are stored verbatim in InstructionDescription for audit. AssessmentResult is derived from decision.risk.score: 0-30 = PASSED, 31-70 = WARNING, 71-100 = REJECTED, -1 = NOT_EXECUTED.
 
 ### Exit conditions
 
@@ -192,22 +192,22 @@ No new fields are captured. Account creation uses data already collected:
 
 ### Behind the scenes
 
-Four sequential operations execute: (1) Create Customer (Party) in Thought Machine Vault Core via `finx-celta-tm-party-service` (POST /Party/Initiate). (2) Create Account via `finx-celta-tm-account-service`. The FBSA retail savings journey uses the V2 flow: POST /v2/accounts with ACCOUNT_STATUS_PENDING (parameters empty at initiation), then parameters applied separately via POST /v1/parameter-values:batchCreate using the account_id, then account activated via PUT /v2/accounts/{account.id} to change status from PENDING to ACCOUNT_STATUS_OPEN. (3) Record Customer Agreement (consent) via 3 sequential API calls: POST /CustomerAgreement/Evaluate (creates master consent record), POST /CustomerAgreement/{id}/PolicyTerms/Evaluate (stores consent value when Application ID and Party ID are created), PUT /CustomerAgreement/{id}/Update (updates party lifecycle status after successful onboarding). (4) Register in CustomerProductandServiceDirectory. The BIAN Savings Account SD (finx-glue-savings-account-service, BIAN v14) routes to finx-glue-tm-account-adapter-service.
+Four sequential operations execute: (1) Create Customer (Party) in Thought Machine Vault Core via `finx-celta-tm-party-service` (`POST /Party/Initiate`). (2) Create Account via `finx-celta-tm-account-service`. The FBSA retail savings journey uses the V2 flow: `POST /v2/accounts` with `ACCOUNT_STATUS_PENDING` (parameters empty at initiation), then parameters applied separately via `POST /v1/parameter-values:batchCreate` using the `account_id`, then account activated via `PUT /v2/accounts/:accountId` to change status from PENDING to `ACCOUNT_STATUS_OPEN`. (3) Record Customer Agreement (consent) via 3 sequential API calls: `POST /CustomerAgreement/Evaluate` (creates master consent record), `POST /CustomerAgreement/:customerAgreementId/PolicyTerms/Evaluate` (stores consent value when Application ID and Party ID are created), `PUT /CustomerAgreement/:customerAgreementId/Update` (updates party lifecycle status after successful onboarding). (4) Register in CustomerProductandServiceDirectory. The BIAN Savings Account SD (`finx-glue-savings-account-service`, BIAN v14) routes to `finx-glue-tm-account-adapter-service`.
 
 ### Exit conditions
 
 - **Pass:** Customer created in TM, account created with ACCOUNT_STATUS_OPEN, consent recorded, Customer ID and Account Number returned. Journey proceeds to Congratulations page display and Credential Setup (Step 7).
-- **Fail (recoverable):** [Source needed - confirm with FinX team]. The V2 flow provides a natural compensation boundary: accounts are created as PENDING and only activated to OPEN after all steps succeed. If a downstream step fails, the account can remain in PENDING status.
-- **Fail (non-recoverable):** [Source needed - confirm with FinX team]. No documented Saga compensation flow exists in the current FBSA implementation. Orchestration is hand-coded in microservices. If account creation fails entirely, the journey would stop at the Application Decision stage.
+- **Fail (recoverable):** Source needed, confirm with FinX team. The V2 flow provides a natural compensation boundary: accounts are created as PENDING and only activated to OPEN after all steps succeed. If a downstream step fails, the account can remain in PENDING status.
+- **Fail (non-recoverable):** Source needed, confirm with FinX team. No documented Saga compensation flow exists in the current FBSA implementation. Orchestration is hand-coded in microservices. If account creation fails entirely, the journey would stop at the Application Decision stage.
 
 ---
 
 ## Step 6: Agreement Signing (DocuSign)
 
 **Module:** Platform capability (finx-celta-docusign-security)  
-**Screen:** [Source needed - confirm with FinX team]  
-**Triggered after:** [Source needed - confirm with FinX team]  
-**Configurable:** [Source needed - confirm with FinX team]
+**Screen:** Source needed, confirm with FinX team  
+**Triggered after:** Source needed, confirm with FinX team  
+**Configurable:** Source needed, confirm with FinX team
 
 :::warning
 DocuSign e-signature is NOT in the current FBSA retail savings onboarding scope. A Jira search for "docusign" across the entire FBSA project returned zero results. No FBSA Feature, Story, or sub-task wires DocuSign e-signature into the retail savings onboarding flow. The `finx-celta-docusign-security` service exists as a platform-level adapter used in the Celta Bank corporate onboarding context. It handles S3 document storage, MSD document CRUD, and DocuSign template sending/tracking, but only the S3 upload and MSD document CRUD functions are used in the FBSA retail savings journey (for uploading ID and address proof documents in Steps 3.2 and 3.4).
@@ -215,7 +215,7 @@ DocuSign e-signature is NOT in the current FBSA retail savings onboarding scope.
 
 ### What the customer sees
 
-[Source needed - confirm with FinX team]. In the corporate onboarding context where DocuSign is used, the signing happens in DocuSign's external UI (not embedded in FinX). The recipient receives a signing invitation via email from DocuSign, views the document, and signs within the DocuSign interface.
+Source needed, confirm with FinX team. In the corporate onboarding context where DocuSign is used, the signing happens in DocuSign's external UI (not embedded in FinX). The recipient receives a signing invitation via email from DocuSign, views the document, and signs within the DocuSign interface.
 
 ### Fields captured
 
@@ -223,17 +223,17 @@ No customer input fields. The DocuSign integration sends pre-populated documents
 
 | Field | Type | Required | Validation |
 | --- | --- | --- | --- |
-| [Source needed] | [Source needed] | [Source needed] | [Source needed] |
+| Source needed | Source needed | Source needed | Source needed |
 
 ### Behind the scenes
 
-The platform capability works as follows (corporate onboarding context, not FBSA retail): (1) POST /v1/documents/docusign/templates/send sends a DocuSign template asynchronously. A tracking record is created in docusign_template_tracking. (2) DocuSign sends the signing invitation to recipients via email. (3) Recipient signs in DocuSign UI. (4) DocuSign sends a webhook event to an AWS Lambda function (celta-docusign-s3-demo) at https://lx45xb2thh.execute-api.ap-south-1.amazonaws.com/demo/docusign/api/webhook. The Lambda processes the event and updates the tracking records. (5) Channel polls GET /v1/documents/docusign/envelopes/status?caseId={caseId} for envelope signing status. The Customer Agreement consent recording (Step 5, FBSA-326) handles the regulatory consent requirement for retail savings onboarding without DocuSign e-signature.
+The platform capability works as follows (corporate onboarding context, not FBSA retail): (1) `POST /v1/documents/docusign/templates/send` sends a DocuSign template asynchronously. A tracking record is created in `docusign_template_tracking`. (2) DocuSign sends the signing invitation to recipients via email. (3) Recipient signs in DocuSign UI. (4) DocuSign sends a webhook event to an AWS Lambda function (`celta-docusign-s3-demo`) at `https://lx45xb2thh.execute-api.ap-south-1.amazonaws.com/demo/docusign/api/webhook`. The Lambda processes the event and updates the tracking records. (5) Channel polls `GET /v1/documents/docusign/envelopes/status?caseId=:caseId` for envelope signing status. The Customer Agreement consent recording (Step 5, FBSA-326) handles the regulatory consent requirement for retail savings onboarding without DocuSign e-signature.
 
 ### Exit conditions
 
-- **Pass:** [Source needed - confirm with FinX team]
-- **Fail (recoverable):** [Source needed - confirm with FinX team]
-- **Fail (non-recoverable):** [Source needed - confirm with FinX team]
+- **Pass:** Source needed, confirm with FinX team
+- **Fail (recoverable):** Source needed, confirm with FinX team
+- **Fail (non-recoverable):** Source needed, confirm with FinX team
 
 ---
 
@@ -262,7 +262,7 @@ The customer sees a screen with three fields: a pre-populated, non-editable User
 
 ### Behind the scenes
 
-Password registration is handled via IssuedDeviceAdministration/Initiate (registers the password) and IssuedDeviceAdministration/{issueddeviceadministrationid}/PasswordAssignment/{passwordassignmentid}/Update (stores the password). For the deposit amount, the BIAN mapping table in FBSA-53 leaves the SD and endpoint columns blank with the remark: "Amount will be handled at the time of account creation." No payment gateway, bank transfer, ACH integration, or fund movement is executed. The platform has technical capability to execute postings (finx-celta-tm-postings-service, POST /v1/posting-instruction-batches) and payments (finx-celta-tm-vaultpayment-service), but these are not wired into the FBSA onboarding flow for initial deposits.
+Password registration is handled via `IssuedDeviceAdministration/Initiate` (registers the password) and `IssuedDeviceAdministration/:issuedDeviceAdministrationId/PasswordAssignment/:passwordAssignmentId/Update` (stores the password). For the deposit amount, the BIAN mapping table in FBSA-53 leaves the SD and endpoint columns blank with the remark: "Amount will be handled at the time of account creation." No payment gateway, bank transfer, ACH integration, or fund movement is executed. The platform has technical capability to execute postings (`finx-celta-tm-postings-service`, `POST /v1/posting-instruction-batches`) and payments (`finx-celta-tm-vaultpayment-service`), but these are not wired into the FBSA onboarding flow for initial deposits.
 
 ### Exit conditions
 
