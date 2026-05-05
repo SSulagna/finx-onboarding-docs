@@ -201,7 +201,7 @@ Vault Payments link and instruments applied when applicable (V1/V2/VP variants).
 | Password | ✅ Yes | Encrypted while typing. Eye icon for show/hide. Moderate password rules. |
 | First Deposit Amount | ✅ Yes | No decimal values allowed. Amount handled at time of account creation. |
 
-**BIAN:** Password registration via IssuedDeviceAdministration/Initiate; password storage via PasswordAssignment/{id}/Update.
+**BIAN:** Password registration via `IssuedDeviceAdministration/Initiate`; password storage via `PasswordAssignment/{id}/Update`.
 
 :::warning Key Finding on Funding
 Per *🗂️Project Plan – Onboarding and Portal Program*: "Payments integration (funding) — N/A as of now it appears. Just a UI screen." There is no payment provider integration for the initial deposit in the current release. The deposit amount is captured on the UI screen and passed to account creation, but no actual payment gateway or bank transfer is executed. This is a UI placeholder for future integration.
