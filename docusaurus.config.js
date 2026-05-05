@@ -19,6 +19,7 @@ const config = {
   deploymentBranch: 'gh-pages',
 
   onBrokenLinks: 'warn',
+  onBrokenAnchors: 'warn',
 
   markdown: {
     hooks: {

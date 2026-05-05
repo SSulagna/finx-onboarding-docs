@@ -13,7 +13,7 @@ This guide enables external bank engineering teams and SI partners to integrate 
 - For sandbox access and Postman collections, see [Sandbox & Postman](./sandbox-postman).
 :::
 
-Use the child pages for hands-on setup and examples: [Authentication & Gateway](#authentication--gateway-1), [API Contracts](./api-contracts), and [Sandbox & Postman](./sandbox-postman).
+Use the child pages for hands-on setup and examples: [API Contracts](./api-contracts) and [Sandbox & Postman](./sandbox-postman).
 
 ## Who should use this
 
