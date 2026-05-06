@@ -1,8 +1,9 @@
 .hero {
-  background: linear-gradient(135deg, #1d242c 0%, #0b6c7a 60%, #0097ab 100%);
-  color: #faf9f6;
+  background: linear-gradient(135deg, var(--finx-hero-start) 0%, var(--finx-hero-mid) 60%, var(--finx-hero-end) 100%);
+  color: var(--finx-cream);
   padding: 5rem 1.5rem 4rem;
   text-align: center;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .heroTitle {
@@ -30,19 +31,19 @@
 
 .card {
   display: block;
-  background: #ffffff;
-  border: 1px solid #e3e8ef;
-  border-radius: 8px;
+  background: var(--finx-surface);
+  border: 1px solid var(--finx-border);
+  border-radius: 12px;
   padding: 1.75rem 1.5rem;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  box-shadow: var(--finx-shadow);
   transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
   border-color: #0097ab;
 }
 
@@ -50,12 +51,12 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
-  color: #1d242c;
+  color: var(--ifm-heading-color);
 }
 
 .cardDesc {
   font-size: 0.95rem;
-  color: #475569;
+  color: var(--ifm-font-color-secondary);
   line-height: 1.5;
   margin: 0;
 }
@@ -69,7 +70,7 @@
 .secondaryTitle {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #1d242c;
+  color: var(--ifm-heading-color);
   margin-bottom: 0.75rem;
 }
 
@@ -83,7 +84,7 @@
 }
 
 .secondaryLinks li a {
-  color: #0b6c7a;
+  color: var(--finx-link);
   text-decoration: none;
   font-weight: 500;
 }
