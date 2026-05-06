@@ -1,11 +1,11 @@
 import React from 'react';
-import DocItemFooter from '@theme-original/DocItem/Footer';
+import Root from '@theme-original/Root';
 import FeedbackWidget from '@site/src/components/FeedbackWidget';
 
-export default function DocItemFooterWrapper(props) {
+export default function RootWrapper(props) {
   return (
     <>
-      <DocItemFooter {...props} />
+      <Root {...props} />
       <FeedbackWidget />
     </>
   );

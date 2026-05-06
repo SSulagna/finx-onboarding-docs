@@ -7,48 +7,59 @@
 :root {
   color-scheme: light;
 
-  --ifm-color-primary: #008B99;
-  --ifm-color-primary-dark: #007a87;
-  --ifm-color-primary-darker: #006f7a;
-  --ifm-color-primary-darkest: #005a65;
-  --ifm-color-primary-light: #009eb0;
-  --ifm-color-primary-lighter: #00b0c5;
+  --ifm-color-primary: #007a87;
+  --ifm-color-primary-dark: #006e7a;
+  --ifm-color-primary-darker: #006570;
+  --ifm-color-primary-darkest: #00525c;
+  --ifm-color-primary-light: #008b99;
+  --ifm-color-primary-lighter: #009eb0;
   --ifm-color-primary-lightest: #00D4D4;
 
+  /* Shared with homepage module */
+  --finx-cream: #faf9f6;
   --finx-surface: #ffffff;
-  --finx-surface-muted: #f3f7f8;
-  --finx-border: #d9e5e8;
-  --finx-shadow: 0 10px 30px rgba(6, 34, 41, 0.08);
+  --finx-surface-muted: #f0f5f7;
+  --finx-border: #d0e2e6;
+  --finx-shadow: 0 4px 20px rgba(6, 34, 41, 0.08);
   --finx-hero-start: #062229;
   --finx-hero-mid: #0A3540;
-  --finx-hero-end: #008B99;
-  --finx-link: #007a87;
+  --finx-hero-end: #007a87;
+  --finx-link: #006e7a;
 
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 139, 153, 0.10);
-  --ifm-background-color: #f4f8fa;
-  --ifm-background-surface-color: #ffffff;
-  --ifm-font-color-base: #1d2e35;
-  --ifm-font-color-secondary: #3d5a63;
-  --ifm-toc-border-color: #d9e5e8;
-  --ifm-hr-border-color: #d9e5e8;
-  --ifm-table-border-color: #d9e5e8;
-  --ifm-code-background: #edf4f5;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 122, 135, 0.10);
 
-  --ifm-navbar-background-color: rgba(255, 255, 255, 0.92);
-  --ifm-navbar-link-color: #1d2e35;
-  --ifm-navbar-link-hover-color: #008B99;
-  --ifm-footer-background-color: #edf3f4;
-  --ifm-footer-color: #1d2e35;
-  --ifm-footer-link-color: #007a87;
+  /* Page */
+  --ifm-background-color: #f0f5f7;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-font-color-base: #0e2329;
+  --ifm-font-color-secondary: #3b5a63;
   --ifm-heading-color: #062229;
+
+  /* Borders */
+  --ifm-toc-border-color: #d0e2e6;
+  --ifm-hr-border-color: #d0e2e6;
+  --ifm-table-border-color: #d0e2e6;
+  --ifm-code-background: #e6eff2;
+
+  /* Navbar */
+  --ifm-navbar-background-color: rgba(255, 255, 255, 0.96);
+  --ifm-navbar-link-color: #0e2329;
+  --ifm-navbar-link-hover-color: #007a87;
+
+  /* Footer */
+  --ifm-footer-background-color: #e6eff2;
+  --ifm-footer-color: #0e2329;
+  --ifm-footer-link-color: #006e7a;
 }
 
 /* ─── Dark mode — matches finx-mockup.vercel.app ───────────────── */
 [data-theme='dark'] {
   color-scheme: dark;
 
-  /* Cyan accent (mockup --cyan) */
+  --finx-cream: #E8F4F6;
+
+  /* Cyan accent */
   --ifm-color-primary: #00D4D4;
   --ifm-color-primary-dark: #00BCBC;
   --ifm-color-primary-darker: #00AAAA;
@@ -57,7 +68,7 @@
   --ifm-color-primary-lighter: #4DEDED;
   --ifm-color-primary-lightest: #7DF3F3;
 
-  /* Surfaces — mockup --bg-deep / --bg-secondary / --card-surface */
+  /* Surfaces */
   --finx-surface: #0F4555;
   --finx-surface-muted: #0A3540;
   --finx-border: rgba(168, 196, 204, 0.12);
@@ -72,18 +83,18 @@
   --ifm-background-color: #062229;
   --ifm-background-surface-color: #0A3540;
 
-  /* Text — mockup --text-primary / --text-secondary */
+  /* Text */
   --ifm-font-color-base: #E8F4F6;
   --ifm-font-color-secondary: #A8C4CC;
   --ifm-heading-color: #E8F4F6;
 
-  /* Borders / dividers */
+  /* Borders */
   --ifm-toc-border-color: rgba(168, 196, 204, 0.12);
   --ifm-hr-border-color: rgba(168, 196, 204, 0.12);
   --ifm-table-border-color: rgba(168, 196, 204, 0.12);
   --ifm-code-background: #0A3540;
 
-  /* Navbar — THIS is the fix for invisible nav text */
+  /* Navbar */
   --ifm-navbar-background-color: rgba(6, 34, 41, 0.92);
   --ifm-navbar-link-color: #E8F4F6;
   --ifm-navbar-link-hover-color: #00D4D4;
@@ -105,7 +116,7 @@ body,
 .navbar {
   backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--finx-border);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 16px rgba(6, 34, 41, 0.08);
 }
 
 .navbar__title,
@@ -127,6 +138,11 @@ body,
 /* ─── Footer ────────────────────────────────────────────────────── */
 .footer {
   border-top: 1px solid var(--finx-border);
+}
+
+/* ─── Sidebar ───────────────────────────────────────────────────── */
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--finx-border) !important;
 }
 
 /* ─── Content ───────────────────────────────────────────────────── */
