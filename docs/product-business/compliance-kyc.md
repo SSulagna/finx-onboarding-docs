@@ -10,18 +10,25 @@ Compliance controls are embedded throughout the onboarding journey with
 clear pass/fail and review states, governed by versioned schemas and
 observable workflows.
 
+## BIAN Service Domain Mapping
+
+The compliance controls in FinX Client Onboarding map to the following BIAN Service Domains:
+
+| BIAN Service Domain | Functional Pattern | Control Record | Role in Onboarding |
+| --- | --- | --- | --- |
+| **Know Your Customer** | Process | Customer KYC Assessment | Orchestrates the full KYC lifecycle: eligibility, identity verification, AML screening, match review, and case conclusion. |
+| **Fraud Evaluation** | Process | Fraud Evaluation Assessment | AML and sanctions screening via ComplyAdvantage Mesh for individuals, corporates, and beneficiaries. Invoked as a step within Know Your Customer. |
+| **Party Reference Data Directory** | Administer | Party Reference Data Directory Entry | Stores and updates customer identity and contact data. De-duplication and party registration run against this SD. |
+| **Customer Agreement** | Administer | Customer Agreement | Records the customer's consent and agreement to product terms at the end of the onboarding journey. |
+
 ## Control Points
 
-- **Eligibility gate.** Country / business-type checks before PII collection.
-- **IDV (optional).** Document and liveness verification per policy.
-- **Sync KYC/AML screening.** ComplyAdvantage Mesh create-and-screen
-  workflow.
-- **Webhooks and monitoring.** Persisted scan status; automatic updates
-  into the case timeline.
-- **HITL escalations.** Manual review queue with SLA and SoD-aware
-  approvals.
-- **Compensation.** Orchestrated rollback or freeze actions when downstream
-  steps already executed.
+- **Eligibility gate.** Country and business-type checks before PII collection. Owned by the **Know Your Customer** SD (`evaluate` operation on the Customer KYC Assessment Control Record).
+- **IDV (optional).** Document and liveness verification via Jumio. Modelled as an `Identity Verification` Behavior Qualifier under the **Know Your Customer** SD.
+- **Sync KYC/AML screening.** ComplyAdvantage Mesh create-and-screen workflow. Owned by the **Fraud Evaluation** SD (`initiate` + `retrieve` on Fraud Evaluation Assessment); invoked as a subordinate step of the **Know Your Customer** Process.
+- **Webhooks and monitoring.** Persisted scan status; automatic updates into the case timeline via `notify` callbacks from ComplyAdvantage into the **Fraud Evaluation** SD.
+- **HITL escalations.** Manual review queue with SLA and SoD-aware approvals. Modelled as a HITL task within the **Know Your Customer** Process workflow; routed to the Compliance Officer role.
+- **Compensation.** Orchestrated rollback or freeze actions when downstream steps already executed. Saga compensation policies defined at the **Know Your Customer** Process SD boundary.
 
 ## KYC Screening Flow (Illustrative)
 

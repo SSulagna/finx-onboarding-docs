@@ -12,16 +12,57 @@ FinX Glue uses a strict URL, versioning, and governance model for both BIAN Serv
 
 ## URL schema
 
+The full BIAN REST path structure, as applied in FinX Glue:
+
 ```
-/{namespace}/{api-type}/{version}/{service-domain}/{control-record-type}/{operation}
+/{namespace}/{api-type}/{version}/{service-domain}/{control-record}/{behavior-qualifier}/{operation}
 ```
 
-- `namespace`: enterprise API namespace (e.g., `api.ustfinx.com`)
-- `api-type`: `public`, `internal`, or `utility`
-- `version`: `v1`, `v2` (path-based for REST)
-- `service-domain`: BIAN Service Domain in kebab-case (e.g., `customer-onboarding`)
-- `control-record-type`: functional partition (e.g., `party-reference`)
-- `operation`: BIAN-aligned verb (`initiate`, `retrieve`, `update`, `record`, `execute`)
+For operations that do not target a Behavior Qualifier, the BQ segment is omitted:
+
+```
+/{namespace}/{api-type}/{version}/{service-domain}/{control-record}/{operation}
+```
+
+| Segment | BIAN Concept | FinX Convention | Example |
+| --- | --- | --- | --- |
+| `namespace` | n/a | Enterprise API namespace | `api.ustfinx.com` |
+| `api-type` | n/a | `public`, `internal`, or `utility` | `public` |
+| `version` | n/a | Path-based SemVer | `v1` |
+| `service-domain` | Service Domain (SD) | Kebab-case SD name | `party-reference-data-directory` |
+| `control-record` | Control Record (CR) | Kebab-case CR name for that SD | `party-reference-data-directory-entry` |
+| `behavior-qualifier` | Behavior Qualifier (BQ) | Kebab-case BQ name (omitted if not applicable) | `contact-details` |
+| `operation` | BIAN Generic Operation | One of the 10 BIAN operations (see below) | `initiate` |
+
+**Control Record examples by Service Domain:**
+
+| Service Domain | Control Record | Kebab-case in URL |
+| --- | --- | --- |
+| Current Account | Current Account Fulfillment Arrangement | `current-account-fulfillment-arrangement` |
+| Savings Account | Savings Account Fulfillment Arrangement | `savings-account-fulfillment-arrangement` |
+| Party Reference Data Directory | Party Reference Data Directory Entry | `party-reference-data-directory-entry` |
+| Customer Agreement | Customer Agreement | `customer-agreement` |
+| Know Your Customer | Customer KYC Assessment | `customer-kyc-assessment` |
+| Document Directory | Document Directory Entry | `document-directory-entry` |
+| Position Keeping | Financial Position Log | `financial-position-log` |
+
+**BIAN Generic Operations (v14):**
+
+| Operation | When used | Functional Patterns |
+| --- | --- | --- |
+| `initiate` | Start a new SD instance (e.g., open an account) | Fulfill, Process, Transact |
+| `retrieve` | Return details of an existing instance | All patterns |
+| `update` | Modify an existing instance | Fulfill, Administer, Process |
+| `record` | Capture information against an instance | Fulfill, Monitor, Process |
+| `execute` | Perform an activity within an instance | Fulfill, Process |
+| `evaluate` | Assess or score an instance | Process, Assess |
+| `control` | Apply a control action (pause, restart, cancel) | Fulfill, Process |
+| `register` | Register a new entry in a directory | Administer |
+| `notify` | Send a state-change notification | Monitor, Fulfill |
+| `request` | Make a formal request against an instance | Administer |
+| `grant` | Authorise access or permission | Administer |
+
+FinX exposes `initiate`, `retrieve`, `update`, `record`, `execute`, `evaluate`, `control`, `register`, and `notify` across its published Glue service APIs. The applicable operations for each Service Domain are determined by its Functional Pattern (see Glossary).
 
 **Case:** kebab-case (lowercase with hyphens) for all URL segments.
 

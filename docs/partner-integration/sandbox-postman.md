@@ -39,30 +39,38 @@ From *FinX Environments*:
 
 ## Representative endpoints
 
-**Prospect & Party**
+Endpoints are grouped by the BIAN Service Domain that owns the business capability. See the [API Contracts](./api-contracts.md) page for URL schema and operation conventions.
 
-- `POST /v1/corporate-entity`
-- `POST /v1/individuals`
-- `POST /v1/case`
-- `POST /v1/checkEligibility`
+**Party Reference Data Directory SD** (Administer | Control Record: Party Reference Data Directory Entry)
 
-**Compliance / KYC**
+- `POST /v1/corporate-entity` — `initiate`: register a new corporate party entry
+- `POST /v1/individuals` — `initiate`: register a new individual party entry
+- `POST /v1/case` — `initiate`: create an onboarding case record
 
-- `POST /ca/v1/scan/individual`
-- `POST /ca/v1/scan/corporate`
-- `POST /ca/v1/scan/beneficiary`
-- `POST /ca/v1/scan/entity/webhook/callback` (for vendor to call)
+**Know Your Customer SD** (Process | Control Record: Customer KYC Assessment)
 
-**Account & Payments**
+- `POST /v1/checkEligibility` — `evaluate`: assess prospect eligibility before PII collection
 
-- `POST /currentAccount/initiate`
-- `GET /currentAccount/{partyReference}/retrieve`
-- `POST /account/vp/v1/paymentInstruments/initiate`
+**Fraud Evaluation SD** (Process | Control Record: Fraud Evaluation Assessment)
 
-**Documents**
+- `POST /ca/v1/scan/individual` — `initiate`: start an individual entity AML screen
+- `POST /ca/v1/scan/corporate` — `initiate`: start a corporate entity AML screen
+- `POST /ca/v1/scan/beneficiary` — `initiate`: start a beneficiary AML screen
+- `POST /ca/v1/scan/entity/webhook/callback` — `notify`: vendor callback to update scan status (excluded from auth)
 
-- `POST /v1/documents`
-- `POST /v1/documents/docusign/templates/send`
+**Current Account SD** (Fulfill | Control Record: Current Account Fulfillment Arrangement)
+
+- `POST /currentAccount/initiate` — `initiate`: open a new current account
+- `GET /currentAccount/{partyReference}/retrieve` — `retrieve`: fetch current accounts for a party
+
+**Savings Account SD** (Fulfill | Control Record: Savings Account Fulfillment Arrangement)
+
+- `POST /account/vp/v1/paymentInstruments/initiate` — `initiate`: attach a payment instrument to a savings account fulfillment arrangement
+
+**Document Directory SD** (Administer | Control Record: Document Directory Entry)
+
+- `POST /v1/documents` — `initiate`: create a document directory entry
+- `POST /v1/documents/docusign/templates/send` — `execute`: trigger e-signature workflow for a document entry
 
 ## Webhook subscriptions (AML Mesh)
 

@@ -126,16 +126,16 @@ FinX-Celta Services List contains ECR image references per env (Dev/QA/UAT) with
 
 These are the BIAN-aligned Glue services that sit between Kong/Keycloak and the adapters. Each maps to a single BIAN Service Domain:
 
-| Glue Service | Stubs Available? | Integrating Adapter | BIAN Version |
-| --- | --- | --- | --- |
-| finx-glue-current-account-service | Yes | finx-glue-tm-account-adapter-service | v13 |
-| finx-glue-customer-agreement-service | Yes | finx-glue-cif-adapter-service | v14 |
-| finx-glue-customer-product-and-service-directory-service | Yes | finx-glue-cif-adapter-service | v14 |
-| finx-glue-document-directory-service | Yes | finx-glue-cif-adapter-service | v13 |
-| finx-glue-party-reference-data-directory-service | Yes | finx-glue-cif-adapter-service | v13 |
-| finx-glue-position-keeping-service | Yes | finx-glue-tm-account-adapter-service | v14 |
-| finx-glue-savings-account-service | Yes | finx-glue-tm-account-adapter-service | v14 |
-| finx-glue-term-deposit-service | Yes | finx-glue-tm-account-adapter-service | v14 |
+| Glue Service | BIAN Service Domain | Functional Pattern | Control Record | Stubs Available? | Integrating Adapter | BIAN Version |
+| --- | --- | --- | --- | --- | --- | --- |
+| finx-glue-current-account-service | Current Account | Fulfill | Current Account Fulfillment Arrangement | Yes | finx-glue-tm-account-adapter-service | v13 |
+| finx-glue-customer-agreement-service | Customer Agreement | Administer | Customer Agreement | Yes | finx-glue-cif-adapter-service | v14 |
+| finx-glue-customer-product-and-service-directory-service | Customer Product and Service Directory | Administer | Customer Product and Service Directory Entry | Yes | finx-glue-cif-adapter-service | v14 |
+| finx-glue-document-directory-service | Document Directory | Administer | Document Directory Entry | Yes | finx-glue-cif-adapter-service | v13 |
+| finx-glue-party-reference-data-directory-service | Party Reference Data Directory | Administer | Party Reference Data Directory Entry | Yes | finx-glue-cif-adapter-service | v13 |
+| finx-glue-position-keeping-service | Position Keeping | Monitor | Financial Position Log | Yes | finx-glue-tm-account-adapter-service | v14 |
+| finx-glue-savings-account-service | Savings Account | Fulfill | Savings Account Fulfillment Arrangement | Yes | finx-glue-tm-account-adapter-service | v14 |
+| finx-glue-term-deposit-service | Term Deposit | Fulfill | Term Deposit Fulfillment Arrangement | Yes | finx-glue-tm-account-adapter-service | v14 |
 
 **Adapter Services:**
 
