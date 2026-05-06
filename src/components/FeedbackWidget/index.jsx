@@ -7,7 +7,7 @@ import styles from './styles.module.css';
  * 2. Enter sulagna.sasmal@ust.com — you'll receive an access key by email
  * 3. Replace the placeholder below with that key
  */
-const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
+const WEB3FORMS_ACCESS_KEY = 'd5ace1b5-e0de-49e0-b51f-e9834851e712';
 
 export default function FeedbackWidget() {
   const [pageUrl, setPageUrl] = useState('');
