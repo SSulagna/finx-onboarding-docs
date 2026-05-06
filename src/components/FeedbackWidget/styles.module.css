@@ -1,0 +1,155 @@
+.widget {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.divider {
+  height: 1px;
+  background: var(--ifm-toc-border-color);
+  margin-bottom: 1.75rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 1rem 0;
+}
+
+/* ─── Stars ──────────────────────────────────────────────────────── */
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin-bottom: 1.25rem;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.1rem;
+  color: var(--ifm-toc-border-color);
+  transition: color 0.1s ease, transform 0.1s ease;
+}
+
+.star:hover,
+.starActive {
+  color: #00D4D4;
+}
+
+.star:hover {
+  transform: scale(1.15);
+}
+
+.ratingLabel {
+  margin-left: 0.5rem;
+  font-size: 0.85rem;
+  color: #00D4D4;
+  font-weight: 600;
+}
+
+/* ─── Form fields ─────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 560px;
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.row .input {
+  flex: 1;
+  min-width: 0;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--finx-border);
+  border-radius: 6px;
+  color: var(--ifm-font-color-base);
+  font-size: 0.875rem;
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #00D4D4;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ─── Submit row ──────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.submit {
+  padding: 0.5rem 1.25rem;
+  background: #00D4D4;
+  color: #062229;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.submit:hover:not(:disabled) {
+  background: #2EE6E6;
+}
+
+.submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ─── Feedback states ─────────────────────────────────────────────── */
+.thanks {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  color: #00D4D4;
+  font-weight: 500;
+}
+
+.thanksIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: rgba(0, 212, 212, 0.15);
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.error {
+  font-size: 0.8rem;
+  color: #e05a5a;
+}
