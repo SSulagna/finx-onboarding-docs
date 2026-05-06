@@ -11,7 +11,7 @@ sidebar_label: Executive Brief
 
 ## Value Proposition
 
-FinX Glue is a next-generation banking integration and interoperability platform — a BIAN-aligned, cloud-native framework that accelerates digital transformation for banks and fintechs. It enables institutions to build, deploy, and operate secure, composable, and host-agnostic banking systems by unifying API management, event-driven data exchange, observability, and governance within a single ecosystem.
+FinX Glue is a next-generation banking integration and interoperability platform: a BIAN-aligned, cloud-native framework that accelerates digital transformation for banks and fintechs. It enables institutions to build, deploy, and operate secure, composable, and host-agnostic banking systems by unifying API management, event-driven data exchange, observability, and governance within a single ecosystem.
 
 *Source: FinX Glue*
 
@@ -19,7 +19,7 @@ The platform delivers four strategic advantages:
 
 | Advantage | Detail |
 | --- | --- |
-| Interoperability without lock-in | Connects legacy cores, modern banking platforms, and fintech ecosystems through canonical models, protocol adapters, workflows, and event streams — true host- and vendor-agnostic integration |
+| Interoperability without lock-in | Connects legacy cores, modern banking platforms, and fintech ecosystems through canonical models, protocol adapters, workflows, and event streams, providing true host- and vendor-agnostic integration |
 | Security, governance, and compliance by design | Policy-as-code, configurable workflow controls, SoD, service identity, lineage, consent management, and runtime validation aligned to PCI-DSS, GDPR, RBI, MAS TRM, ISO 27001 |
 | Composable banking experiences | Reusable BIAN-aligned APIs, schema-driven UI flows, and intelligent orchestration let banks assemble new products and journeys rapidly without redevelopment |
 | Intelligent process orchestration | Unified orchestration of APIs, events, human tasks, rules, and UI flows ensures consistent execution across digital touchpoints, back-office, and ecosystem integrations |
@@ -44,7 +44,7 @@ The platform delivers four strategic advantages:
 
 ## Milestones and Readiness
 
-### Savings Account Onboarding — Delivery Milestones (Oct–Dec 2025)
+### Savings Account Onboarding: Delivery Milestones (Oct–Dec 2025)
 
 | Milestone | Deliverables | Target Dates | Owner | Status |
 | --- | --- | --- | --- | --- |
@@ -59,9 +59,9 @@ The platform delivers four strategic advantages:
 | Bankers Workbench (MFE + BIAN) | BWB UI + service integration | 10-Nov → 03-Dec 2025 | Full Team | ✅ Completed |
 | Final Release | Prod deploy & monitoring | 10-Dec 2025 | Release Manager / DevOps | ✅ Completed |
 
-*Source: Release Plan & Timeline — FinX Bank Savings Account · 🗂️Project Plan – Onboarding and Portal Program*
+*Source: Release Plan and Timeline, FinX Bank Savings Account · Project Plan, Onboarding and Portal Program*
 
-### FinX Glue Platform — Release Calendar (Jan–Jul 2026)
+### FinX Glue Platform: Release Calendar (Jan–Jul 2026)
 
 | Milestone | Date | Status |
 | --- | --- | --- |
@@ -75,16 +75,16 @@ The platform delivers four strategic advantages:
 | UAT & Go-Live Readiness | 24 Jun – 03 Jul 2026 | Planned |
 | GO-LIVE | ⭐ 11 Jul 2026 | 🚀 Planned |
 
-*Source: FinX Glue - Release Calendar — Jan to Jul 2026*
+*Source: FinX Glue - Release Calendar, Jan to Jul 2026*
 
-### FinX Glass — Release Calendar (Jan–Jul 2026)
+### FinX Glass: Release Calendar (Jan–Jul 2026)
 
 | Milestone | Status |
 | --- | --- |
-| Phase 1 — Platform Setup (Modyo, SSO, shell) | ✅ Completed |
-| Phase 2 — Micro FE platform + Glue integration | ✅ Completed |
-| Phase 3 — Customer & Account Ops modules | 🟩 In Progress |
-| Phase 4 — Hardening, analytics, compliance | Analysis started |
+| Phase 1: Platform Setup (Modyo, SSO, shell) | ✅ Completed |
+| Phase 2: Micro FE platform + Glue integration | ✅ Completed |
+| Phase 3: Customer and Account Ops modules | 🟩 In Progress |
+| Phase 4: Hardening, analytics, compliance | Analysis started |
 | Ver 0.1 → 04 Mar 2026 | ✅ Released |
 | Ver 0.2 → 15 Apr 2026 | ✅ Released |
 | Ver 0.3 → 28 May 2026 | 🟩 In Progress |
@@ -97,19 +97,19 @@ The platform delivers four strategic advantages:
 
 ### Onboarding Program Risk Register
 
-*From: 🗂️Project Plan – Onboarding and Portal Program & Release Plan & Timeline — FinX Bank Savings Account*
+*From: Project Plan, Onboarding and Portal Program; Release Plan and Timeline, FinX Bank Savings Account*
 
 | ID | Risk | Impact | Mitigation | Owner |
 | --- | --- | --- | --- | --- |
 | R-001 | Jumio IDV integration | High | Follow up on Jumio API Documentation and making BIAN-compliant requests | Karthi, Avinash, Shamsudheen |
 | R-002 | ComplyAdvantage integration | Medium | Follow up on CA API Documentation and making BIAN-compliant requests | Karthi, Avinash, Shamsudheen |
-| R-003 | Payments integration (funding) | High | N/A as of now — appears to be just a UI screen | — |
+| R-003 | Payments integration (funding) | High | N/A as of now; appears to be just a UI screen | Unassigned |
 | R-004 | Infra provisioning delays | Medium | Setup of Codegen from Chandrakiran Team and DevOps team | DevOps |
 | R-005 | Missing product specs (BWB) | Medium | No missing requirements for RDO. Banker's Workbench not yet finalised. Waiting for confirmation from Liam | PO / BA |
 
 ### FinX Glue Release Risk Register
 
-*From: FinX Glue - Release Calendar — Jan to Jul 2026*
+*From: FinX Glue - Release Calendar, Jan to Jul 2026*
 
 | ID | Risk | Impact | Likelihood | RAG | Mitigation | Owner | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -140,7 +140,7 @@ onboarding and journey consistency.
 | Role | Name | Source |
 | --- | --- | --- |
 | Project Owners | Dushyant Bhatia, Vijaykumar Kunnath | FinX Bank Savings Account E2E Requirements |
-| Program Driver / Release Manager | Prasad Muthudoss | Release Plan & Timeline — FinX Bank Savings Account · FinX Glue - Release Calendar — Jan to Jul 2026 |
+| Program Driver / Release Manager | Prasad Muthudoss | Release Plan and Timeline, FinX Bank Savings Account · FinX Glue - Release Calendar, Jan to Jul 2026 |
 | Product Owner (Squad 1) | Nirmal Satyendra | 🚀 FinX Glue Squad-1 Team Board |
 | Program Manager | Nishant Virutkar | 🚀 FinX Glue Squad-1 Team Board |
 | Tech Leads | Avinash, Nirmal Satyendra | FinX Bank Savings Account E2E Requirements |

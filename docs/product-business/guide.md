@@ -22,10 +22,10 @@ See the [Onboarding Journey Map](./journey-map.md) for field-level detail, Jira 
 
 - **Product Selection.** Product type, currency, and intended-use selection from configurable dropdowns.
 - **Application Initiation.** Contact capture, de-duplication check, consent, Application ID generation.
-- **Information Collection.** Personal details, identification (IDV via Jumio), contact info, address proof documentation — 4 sequential screens.
+- **Information Collection.** Personal details, identification (IDV via Jumio), contact info, and address proof documentation across 4 sequential screens.
 - **Data Validation & Compliance.** ComplyAdvantage KYC/AML screening + Jumio IDV (backend, no customer-facing screen).
 - **Customer & Account Creation.** Thought Machine Vault Core party/account creation; Customer Agreement (consent) APIs.
-- **Credential Setup & Funding.** Username/password setup + first deposit amount (⚠️ no payment provider integration in current release — UI placeholder only).
+- **Credential Setup & Funding.** Username/password setup + first deposit amount (⚠️ no payment provider integration in current release; UI placeholder only).
 - **Bankers Workbench.** Service request dashboard, review/approve, exception handling, user management (in-progress).
 - **Observability & Governance.** Dashboards, schema registry, CI/CD controls.
 
@@ -50,7 +50,7 @@ No dedicated UX research or persona documentation was found for the Retail Custo
 
 FinX Client Onboarding is designed around three orchestration layers. These are documented as target-state capabilities built on Conductor OSS; current onboarding flows use hand-coded microservice orchestration (see *FinX Glue Testing Requirements for QA and Test Team*).
 
-### Layer 1 — Workflow Engine (Conductor OSS at Core)
+### Layer 1: Workflow Engine (Conductor OSS at Core)
 
 FinX Glue uses Conductor OSS as the orchestration backbone, enhanced to support BPMN-compliant workflow definitions (JSON/YAML) for modelling processes aligned with industry-standard notation. It orchestrates microservices, APIs, events, human tasks, and UI steps, enabling standardized, predictable, and reusable business processes across digital products and channels.
 
@@ -62,7 +62,7 @@ FinX Glue uses Conductor OSS as the orchestration backbone, enhanced to support 
 
 *Source: Process & Orchestration*
 
-### Layer 2 — Schema-Driven UI & Configurable Experience Engine
+### Layer 2: Schema-Driven UI and Configurable Experience Engine
 
 Listed as FinX Glue Component #3 in *FinX Glue*:
 
@@ -76,7 +76,7 @@ Implementation details from *Process & Orchestration*:
 - Rule-based UI behavior for eligibility, skip/branching, validation, and conditional display
 - Consistent runtime updates across Web and Mobile channels, without redeployments
 
-### Layer 3 — Decisioning & Rules Engine Integration
+### Layer 3: Decisioning and Rules Engine Integration
 
 Confirmed as a real documented capability. From *Process & Orchestration*:
 
@@ -106,7 +106,7 @@ These are backed by the existing Prometheus + Grafana + Loki observability stack
 | Infrastructure | Node outages, CPU/Memory/Network I/O per pod and container, FileSystem usage | Kubernetes cluster & pod dashboards |
 | Database | CPU usage, storage utilization, active connections, query compile time, average read query time, successful transactions | DB monitoring panels |
 | Kafka/Eventing | Online/Offline brokers, partition metrics, topic health (throughput, messages, offsets), consumption lag, producer/consumer errors | Kafka monitoring panels |
-| Business Dashboard | Total requests submitted, total responses received, total success/failure count, percentage success/failure — filterable by time range and per client/organization | Monitoring, Logging and Observability |
+| Business Dashboard | Total requests submitted, total responses received, total success/failure count, percentage success/failure, filterable by time range and per client/organization | Monitoring, Logging and Observability |
 | Distributed Tracing | End-to-end trace correlation (trace_id, span_id) across Kong → BIAN microservice → adapter → target system; log/trace/metric correlation in Grafana | Tempo/Jaeger integration |
 | SRE / Reliability | SLIs (availability, reliability, latency, error rates, throughput), SLO targets (e.g., 99.9% uptime), error budgets, burn rate alerts (1-2× Warning, 2-5× Critical, >10× Deployment freeze + rollback) | SLO/SLA dashboards (REQ-OBS-413) |
 
@@ -136,7 +136,7 @@ From *Task Management Dashboard*:
 | Team Utilization Rate | 70–85% | NOT STARTED |
 | Compliance Review Turnaround | < 4 hours | NEEDS ATTENTION |
 
-### Onboarding Journey Metrics (Aspirational — Not Yet Instrumented)
+### Onboarding Journey Metrics (Aspirational, Not Yet Instrumented)
 
 The following are valid target metrics for the Business Abstraction Layer and FinX Glass Phase 3+, but are not currently backed by existing Grafana dashboards or documented KPI specs:
 

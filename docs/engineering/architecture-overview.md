@@ -45,7 +45,7 @@ This guide is organized into five engineer-focused sections. Use the Table of Co
 
 ## 1. Architecture Overview
 
-FinX Glue is a modular, config-driven interoperability layer that exposes BIAN-aligned microservices and adapters behind Kong + Keycloak, with governed schemas. The platform's architecture is designed to be modular, config-driven, and secure — enabling seamless interoperability between a client's identity infrastructure and multiple downstream target systems.
+FinX Glue is a modular, config-driven interoperability layer that exposes BIAN-aligned microservices and adapters behind Kong + Keycloak, with governed schemas. The platform's architecture is designed to be modular, config-driven, and secure, enabling seamless interoperability between a client's identity infrastructure and multiple downstream target systems.
 
 :::warning Implementation Note
 Conductor OSS is documented as the target orchestration engine (see §4 Orchestration Engine), but per *FinX Glue Testing Requirements for QA and Test Team*: "Please note we are currently not using Conductor OSS for orchestration, we are handcoding it in the microservices." Current orchestration is hand-coded in microservices.
@@ -55,13 +55,13 @@ Conductor OSS is documented as the target orchestration engine (see §4 Orchestr
 
 **Design principles:**
 
-The architecture follows a few key principles. The **one microservice per Service Domain** pattern keeps BIAN operations modular and independently deployable. The **one adapter per target system** pattern isolates integration logic, meaning changes to one target system have no impact on others. The **config-driven approach** — using external JSON configuration files for both adapter routing and target API specifications — means the system can be extended to new target systems without requiring code changes to the core platform.
+The architecture follows a few key principles. The **one microservice per Service Domain** pattern keeps BIAN operations modular and independently deployable. The **one adapter per target system** pattern isolates integration logic, meaning changes to one target system have no impact on others. The **config-driven approach** uses external JSON configuration files for both adapter routing and target API specifications, meaning the system can be extended to new target systems without requiring code changes to the core platform.
 
 *Source: FinX Glue - Architecture*
 
 **Request flow:**
 
-When a user initiates a request, it first passes through the **Kong API Gateway**, which serves as the unified entry point for all traffic. Kong routes the request to **Keycloak**, which handles authentication via OIDC and User Federation, federating identity back to the client's IdP. Once authenticated, the request — carrying contextual metadata such as `tenant_id` and `bian_operation_id` (e.g., `CurrentAccount_Initiate`) — is forwarded to the appropriate **BIAN Microservice**. The microservice consults the `Adapter Config.JSON` to resolve the correct `adapter_bian_api_url`. The **Adapter Microservice** then executes a structured transformation pipeline: (1) Read Target Configuration, (2) Transform Target Payload, (3) Call Target API, (4) Handle Target Response, (5) Transform Target Response. The transformed response travels back through the stack and is returned to the user.
+When a user initiates a request, it first passes through the **Kong API Gateway**, which serves as the unified entry point for all traffic. Kong routes the request to **Keycloak**, which handles authentication via OIDC and User Federation, federating identity back to the client's IdP. Once authenticated, the request, carrying contextual metadata such as `tenant_id` and `bian_operation_id` (e.g., `CurrentAccount_Initiate`), is forwarded to the appropriate **BIAN Microservice**. The microservice consults the `Adapter Config.JSON` to resolve the correct `adapter_bian_api_url`. The **Adapter Microservice** then executes a structured transformation pipeline: (1) Read Target Configuration, (2) Transform Target Payload, (3) Call Target API, (4) Handle Target Response, (5) Transform Target Response. The transformed response travels back through the stack and is returned to the user.
 
 *Source: FinX Glue - Architecture*
 
@@ -158,7 +158,7 @@ These are the BIAN-aligned Glue services that sit between Kong/Keycloak and the 
 | finx-celta-servicerequest-service | Service request CRUD to MSD, reply messages with documents, category details | N/A | Gradle | Finx Microservices Details |
 | finx-celta-tm-dormancy-service | Dormant account management: create/fetch dormant cases, set/remove dormancy, re-KYC doc upload | finx_reports_db | Gradle | Finx Microservices Details |
 | finx-reports-service | Report generation by name (PDF/CSV), report parameter management | finx_reports_db | Maven | Finx Microservices Details |
-| finx-scheduler-task-service | Scheduled task execution | scheduler_task_db | — | FinX-Celta Services List |
+| finx-scheduler-task-service | Scheduled task execution | scheduler_task_db | N/A | FinX-Celta Services List |
 
 ## 3. Schema Registry & SoP
 

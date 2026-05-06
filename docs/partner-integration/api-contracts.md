@@ -38,8 +38,8 @@ From *Transitioning FinX Glue to a Business Capability Platform: Current and Tar
 
 - **Semantic Versioning** via OAS `info.version` (MAJOR.MINOR.PATCH)
 - **x-bian-version** tracks upstream BIAN specification version (e.g., 14.0.0) independently
-- **Safe changes** (MINOR/PATCH): optional fields with defaults, new endpoints, extended enums — no MAJOR bump required
-- **Breaking changes** (MAJOR): removed/renamed fields, changed response structure, modified auth — requires MAJOR increment
+- **Safe changes** (MINOR/PATCH): optional fields with defaults, new endpoints, extended enums; no MAJOR bump required
+- **Breaking changes** (MAJOR): removed/renamed fields, changed response structure, modified auth; requires MAJOR increment
 - Evented and gRPC APIs follow topic-suffix and package naming versioning respectively
 - **Deprecation window:** 3-month minimum; support latest minus 2; surfaced via `Deprecation: true` and `Sunset` response headers and release notes
 

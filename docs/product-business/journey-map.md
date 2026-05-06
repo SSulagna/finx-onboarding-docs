@@ -9,7 +9,7 @@ sidebar_label: Journey Map
 This page walks through the FinX retail savings onboarding journey end to end, from prospect qualification to funded account. For each step, you will find the screen the customer sees, the fields captured, what happens behind the scenes, and how exceptions are handled. Use this as the canonical reference when mapping FinX to a bank's existing onboarding processes.
 
 :::info
-Screenshots referenced in this page link to the FinX Bank Figma file. Access requires UST credentials.
+Screen references in this page correspond to the FinX Bank Figma design file. Figma links will be added once the file is shared externally. Contact the FinX design team for access.
 :::
 
 ---
@@ -23,7 +23,7 @@ Screenshots referenced in this page link to the FinX Bank Figma file. Access req
 
 ### What the customer sees
 
-The customer lands on the Product Selection screen where they choose the type of account they want to open. In the current release, only "Savings" is selectable as a product type; other options (Checking, Term Deposit, Loan) are visible but greyed out. After selecting Product Type, the customer selects a Product (only "Basic Savings" selectable), a Currency (CAD, EUR, GBP, INR, USD), and an Intended Use of Account from configurable dropdowns. If "Others" is selected for intended use, a free-text field appears (max 100 characters). The "Enroll Now" button remains disabled until all mandatory fields contain valid data. No customer information is captured or sent to any backend API on this screen. [View in Figma](https://www.figma.com/file/FinXBank)
+The customer lands on the Product Selection screen where they choose the type of account they want to open. In the current release, only "Savings" is selectable as a product type; other options (Checking, Term Deposit, Loan) are visible but greyed out. After selecting Product Type, the customer selects a Product (only "Basic Savings" selectable), a Currency (CAD, EUR, GBP, INR, USD), and an Intended Use of Account from configurable dropdowns. If "Others" is selected for intended use, a free-text field appears (max 100 characters). The "Enroll Now" button remains disabled until all mandatory fields contain valid data. No customer information is captured or sent to any backend API on this screen.
 
 :::caution
 The platform-level `finx-qualify-prospect-service-papi` (POST /v1/checkEligibility) exists and determines whether a prospect qualifies to open an account based on country and business type. However, this service is NOT wired into the current FBSA retail savings journey. The first step is product/currency/intended-use selection, not an eligibility gate. The qualify prospect service is used in the corporate onboarding context (Celta Bank).
@@ -103,18 +103,18 @@ On the Application Initiation screen, `finx-customer-onboarding-service-papi` pe
 
 ### What the customer sees
 
-On the Identification Details screen (Screen 3.2), the customer selects an ID Type from a configurable dropdown (Passport, Driving License, National ID Card), enters the ID Number, Issuing State, Issue Date, Expiration Date, and Issuing Authority, then uploads front and back images of the document (max 2 MB; JPG, PNG, or PDF). A consent checkbox must be checked as a hard prerequisite for Jumio. The customer does not see the IDV results until the Application Decision screen (Step 6 of the journey), where they receive one of four outcomes: verification successful (proceeds to Congratulations page), manual review required ("please wait"), verification rejected (Sorry page), or verification could not be executed. [View in Figma](https://www.figma.com/file/FinXBank)
+On the Identification Details screen (Screen 3.2), the customer selects an ID Type from a configurable dropdown (Passport, Driving License, National ID Card), enters the ID Number, Issuing State, Issue Date, Expiration Date, and Issuing Authority, then uploads front and back images of the document (max 2 MB; JPG, PNG, or PDF). A consent checkbox must be checked as a hard prerequisite for Jumio. The customer does not see the IDV results until the Application Decision screen (Step 6 of the journey), where they receive one of four outcomes: verification successful (proceeds to Congratulations page), manual review required ("please wait"), verification rejected (Sorry page), or verification could not be executed.
 
 ### Fields captured
 
 | Field | Type | Required | Validation |
 | --- | --- | --- | --- |
 | ID Type | Dropdown | Yes | Values: Passport, Driving License, National ID Card. Hover tooltip shows ID Type information. Acceptable doc types configurable. |
-| ID Number | String | Yes | Source needed |
-| Issuing State | String | Yes | Source needed |
+| ID Number | String | Yes | Validation rules pending confirmation from FinX product team. |
+| Issuing State | String | Yes | Validation rules pending confirmation from FinX product team. |
 | Issue Date | Date picker | Yes | Must not be greater than present date. |
 | Expiration Date | Date picker | Yes | Must be greater than Issue Date. |
-| Issuing Authority | String | Yes | Source needed |
+| Issuing Authority | String | Yes | Validation rules pending confirmation from FinX product team. |
 | Upload Document (front + back) | File upload | Yes | Max file size: 2 MB. Accepted types: JPG, PNG, PDF. Error messages for invalid files. |
 
 ### Behind the scenes
@@ -197,17 +197,17 @@ Four sequential operations execute: (1) Create Customer (Party) in Thought Machi
 ### Exit conditions
 
 - **Pass:** Customer created in TM, account created with ACCOUNT_STATUS_OPEN, consent recorded, Customer ID and Account Number returned. Journey proceeds to Congratulations page display and Credential Setup (Step 7).
-- **Fail (recoverable):** Source needed, confirm with FinX team. The V2 flow provides a natural compensation boundary: accounts are created as PENDING and only activated to OPEN after all steps succeed. If a downstream step fails, the account can remain in PENDING status.
-- **Fail (non-recoverable):** Source needed, confirm with FinX team. No documented Saga compensation flow exists in the current FBSA implementation. Orchestration is hand-coded in microservices. If account creation fails entirely, the journey would stop at the Application Decision stage.
+- **Fail (recoverable):** Partial failure after account creation. The V2 flow provides a natural compensation boundary: accounts are created as PENDING and only activated to OPEN after all steps succeed. If a downstream step fails, the account can remain in PENDING status. Specific recovery steps are pending confirmation from the FinX engineering team.
+- **Fail (non-recoverable):** Complete account creation failure. No documented Saga compensation flow exists in the current FBSA implementation. Orchestration is hand-coded in microservices. If account creation fails entirely, the journey stops at the Application Decision stage. Escalation path pending confirmation from the FinX engineering team.
 
 ---
 
 ## Step 6: Agreement Signing (DocuSign)
 
 **Module:** Platform capability (finx-celta-docusign-security)  
-**Screen:** Source needed, confirm with FinX team  
-**Triggered after:** Source needed, confirm with FinX team  
-**Configurable:** Source needed, confirm with FinX team
+**Screen:** Not applicable in current FBSA retail savings scope  
+**Triggered after:** Not applicable in current FBSA retail savings scope  
+**Configurable:** Not applicable in current FBSA retail savings scope
 
 :::warning
 DocuSign e-signature is NOT in the current FBSA retail savings onboarding scope. A Jira search for "docusign" across the entire FBSA project returned zero results. No FBSA Feature, Story, or sub-task wires DocuSign e-signature into the retail savings onboarding flow. The `finx-celta-docusign-security` service exists as a platform-level adapter used in the Celta Bank corporate onboarding context. It handles S3 document storage, MSD document CRUD, and DocuSign template sending/tracking, but only the S3 upload and MSD document CRUD functions are used in the FBSA retail savings journey (for uploading ID and address proof documents in Steps 3.2 and 3.4).
@@ -215,7 +215,7 @@ DocuSign e-signature is NOT in the current FBSA retail savings onboarding scope.
 
 ### What the customer sees
 
-Source needed, confirm with FinX team. In the corporate onboarding context where DocuSign is used, the signing happens in DocuSign's external UI (not embedded in FinX). The recipient receives a signing invitation via email from DocuSign, views the document, and signs within the DocuSign interface.
+This step is not present in the current FBSA retail savings onboarding journey. In the corporate onboarding context where DocuSign is used, the signing happens in DocuSign's external UI (not embedded in FinX). The recipient receives a signing invitation via email from DocuSign, views the document, and signs within the DocuSign interface.
 
 ### Fields captured
 
@@ -223,7 +223,7 @@ No customer input fields. The DocuSign integration sends pre-populated documents
 
 | Field | Type | Required | Validation |
 | --- | --- | --- | --- |
-| Source needed | Source needed | Source needed | Source needed |
+| N/A | N/A | N/A | Not applicable in current FBSA retail savings scope |
 
 ### Behind the scenes
 
@@ -231,9 +231,9 @@ The platform capability works as follows (corporate onboarding context, not FBSA
 
 ### Exit conditions
 
-- **Pass:** Source needed, confirm with FinX team
-- **Fail (recoverable):** Source needed, confirm with FinX team
-- **Fail (non-recoverable):** Source needed, confirm with FinX team
+- **Pass:** Not applicable in current FBSA retail savings scope.
+- **Fail (recoverable):** Not applicable in current FBSA retail savings scope.
+- **Fail (non-recoverable):** Not applicable in current FBSA retail savings scope.
 
 ---
 
@@ -245,12 +245,12 @@ The platform capability works as follows (corporate onboarding context, not FBSA
 **Configurable:** No. Business rules for password validation are TBD. Deposit field validation (numeric, non-zero, positive, max 999,999,999) is fixed.
 
 :::warning
-There is NO payment provider integration for account funding in the current FBSA retail savings onboarding. Per the Project Plan Risk Register (R-003): "Payments integration (funding) — N/A as of now it appears. Just a UI screen." Impact: High. FBSA-53 has been Blocked/On-Hold since 2025-12-01. The deposit amount is captured on the UI but no actual payment is processed.
+There is NO payment provider integration for account funding in the current FBSA retail savings onboarding. Per the Project Plan Risk Register (R-003): "Payments integration (funding): N/A as of now it appears. Just a UI screen." Impact: High. FBSA-53 has been Blocked/On-Hold since 2025-12-01. The deposit amount is captured on the UI but no actual payment is processed.
 :::
 
 ### What the customer sees
 
-The customer sees a screen with three fields: a pre-populated, non-editable Username (their email from Step 2), a Password field (encrypted while typing by default, with an eye icon for show/hide and a hover tooltip showing password requirements), and a "Make Your First Deposit" numeric field. The currency selected in Product Selection (Step 1) is displayed alongside the deposit field. The "Preview" button is enabled only after valid Password and First Deposit values are entered. The "Back" button is always enabled. Once the customer clicks "Done" after submission, they cannot return to the previous screen, even through the browser. [View in Figma](https://www.figma.com/file/FinXBank)
+The customer sees a screen with three fields: a pre-populated, non-editable Username (their email from Step 2), a Password field (encrypted while typing by default, with an eye icon for show/hide and a hover tooltip showing password requirements), and a "Make Your First Deposit" numeric field. The currency selected in Product Selection (Step 1) is displayed alongside the deposit field. The "Preview" button is enabled only after valid Password and First Deposit values are entered. The "Back" button is always enabled. Once the customer clicks "Done" after submission, they cannot return to the previous screen, even through the browser.
 
 ### Fields captured
 

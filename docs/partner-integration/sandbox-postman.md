@@ -33,7 +33,7 @@ From *FinX Environments*:
 
 ## Postman collections
 
-- **FinX Demo APIs collection:** `Finx-Demo-APIs-1107.postman_collection.json` — contains all Demo API endpoints organized by service.
+- **FinX Demo APIs collection:** `Finx-Demo-APIs-1107.postman_collection.json`, containing all Demo API endpoints organized by service.
 
 *Source: Finx Microservices Details*
 
@@ -86,7 +86,7 @@ Do not reuse webhook URLs across environments. Register `CASE_CREATED`, `CASE_ST
 
 ## Important notes
 
-- **Kafka consumers/transforms run only in Dev** — even when using Demo URLs, Kafka transformation occurs in Dev because Kafka has a single API endpoint configured for the stage environment.
+- **Kafka consumers/transforms run only in Dev.** Even when using Demo URLs, Kafka transformation occurs in Dev because Kafka has a single API endpoint configured for the stage environment.
 - **ComplyAdvantage webhook subscription** for transaction screening is performed manually by contacting CA support.
 - **Entitlement service** requires initial setup: create Maker and Checker roles via API after deployment on new environment.
 
